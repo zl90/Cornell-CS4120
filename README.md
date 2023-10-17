@@ -5,5 +5,8 @@ I'm taking Cornell University's "Introduction to Compilers" course. Follow along
 Course website: https://www.cs.cornell.edu/courses/cs4120/2023sp/
 
 #### Lesson 1: Course Overview
+My study session: https://www.youtube.com/watch?v=U8bg22j2Yt4
+
+In this lesson we get a high-level view of the main components of a compiler, including lexical analysis, syntactic analysis, semantic analysis, intermediate code generation, code optimization and machine dependent phases. We learn the difference between the frontend and backend of a compiler.
 
 #### Lesson 1 supplemental reading
