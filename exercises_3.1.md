@@ -12,31 +12,31 @@ Divide the Following C++ Program:
 into appropriate lexemes, using the discussion of Section 3.1.2 as a guide. Which
 lexemes should get associated lexical values? What should those values be?
 
-<float>
-<id, pointer to the symbol table entry for limitedSquare (henceforth represented by value of 1)>
+\<float>
+\<id, pointer to the symbol table entry for limitedSquare (henceforth represented by value of 1)>
 <(>
-<id, 1>
+\<id, 1>
 <)>
-<float>
-<id, 1>
+\<float>
+\<id, 1>
 <;>
 <{>
-<return>
+\<return>
 <(>
-<id, 1>
-<lte_op>
-<number, -10.0>
-<LOR_op>
-<id, 1>
-<gte_op>
-<number, 10.0>
+\<id, 1>
+\<lte_op>
+\<number, -10.0>
+\<LOR_op>
+\<id, 1>
+\<gte_op>
+\<number, 10.0>
 <)>
-<tern_op>
-<number, 100>
-<colon_op>
-<id, 1>
-<mult_op>
-<id, 1>
+\<tern_op>
+\<number, 100>
+\<colon_op>
+\<id, 1>
+\<mult_op>
+\<id, 1>
 <;>
 <}>
 
