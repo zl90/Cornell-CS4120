@@ -19,4 +19,4 @@ My study session: https://www.youtube.com/watch?v=b2VPWksZGIE
 
 We go into more depth on how modern lexers tokenize input streams. We start learning the notation and arithmetic surrounding Regular Expressions and discern how Regular Expressions help solve common problems with lexers (such as overlapping tokens and lookahead issues).
 
-### 04 - Automating Lexical Analysis
+#### 04 - Automating Lexical Analysis
