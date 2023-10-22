@@ -21,3 +21,8 @@ My study session: https://www.youtube.com/watch?v=b2VPWksZGIE
 We go into more depth on how modern lexers tokenize input streams. We start learning the notation and arithmetic surrounding Regular Expressions and discern how Regular Expressions help solve common problems with lexers (such as overlapping tokens and lookahead issues).
 
 #### 04 - Automating Lexical Analysis
+My study session: https://www.youtube.com/watch?v=18mFL3ySy5I
+
+This was a tough lesson (the best kind of lesson). Going even deeper into the mathematics surrounding regular expressions, Deterministic and Non-deterministic Finite Automata, we tackle the problems of converting back and forth between these different representations of string matching patterns. This lesson preps us for the upcoming homework assignment.
+
+#### 05 - Homework Assignment 1
