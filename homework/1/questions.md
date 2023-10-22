@@ -1,6 +1,6 @@
 #### Question 1
 Regular expression: (GTG)(\[TGAC\]{3})\*(TGA|TAG|TAA)
-\*See the image file `question_1.png` for the (ugly) NFA drawing.
+[](./question_1.png)
 
 #### Question 2
 DFA table:
@@ -13,5 +13,5 @@ DFA table:
 **2,3**		1	2,3	1,3
 
 #### Question 3
-
+[](./question_3.png)
 
