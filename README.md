@@ -24,6 +24,10 @@ We go into more depth on how modern lexers tokenize input streams. We start lear
 #### 04 - Automating Lexical Analysis
 My study session: https://www.youtube.com/watch?v=18mFL3ySy5I
 
-This was a tough lesson (the best kind of lesson). Going even deeper into the mathematics surrounding regular expressions, Deterministic and Non-deterministic Finite Automata, we tackle the problems of converting back and forth between these different representations of string matching patterns. This lesson preps us for the upcoming homework assignment.
+This was a tough lesson (the best kind of lesson). Going even deeper into the mathematics surrounding regular expressions, Deterministic and Non-deterministic Finite Automata (DFA and NFA), we tackle the problems of converting back and forth between these different representations of string matching patterns. This lesson preps us for the upcoming homework assignment.
 
 #### 05 - Homework Assignment 1
+My study session: https://www.youtube.com/watch?v=MQzJyxpnG90
+
+We go through the homework questions, including the conversion of Regular Expressions to NFAs(and vice versa), NFAs to DFAs, and the concept of equivalent states/transitions in NFAs.
+
