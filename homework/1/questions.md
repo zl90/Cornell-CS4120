@@ -15,3 +15,5 @@ DFA table:
 #### Question 3
 ![](./question_3.png)
 
+#### Question 4
+They are equivalent. I cannot find a counter example that proves otherwise.
