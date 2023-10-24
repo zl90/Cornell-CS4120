@@ -31,3 +31,8 @@ My study session: https://www.youtube.com/watch?v=MQzJyxpnG90
 
 We go through the homework questions, including the conversion of Regular Expressions to NFAs(and vice versa), NFAs to DFAs, and the concept of equivalent states/transitions in NFAs.
 
+#### 06 - Grammars and Parsing
+My study session: https://www.youtube.com/watch?v=7xEPBkLrvCk
+
+We move onto Syntactic Analysis, diving into the construction of Context Free Grammars as the first step towards building an abstract syntax tree. We learn about common problems with top-down parsers and how to work around them.
+
