@@ -2,8 +2,9 @@
 I'm taking Cornell University's "Introduction to Compilers" course. Follow along with me!
 
 ### Course information
-Course website: https://www.cs.cornell.edu/courses/cs4120/2023sp/
 This is one of the best introductory compiler courses out there and it's completely free. The lecture videos are available only to Cornell students, but the lecture notes are just as good, if not better than the lecture videos (their words, not mine). I'll be doing the lessons, the supplemental readings, the homework assignments and the programming assignments.
+
+Course website: https://www.cs.cornell.edu/courses/cs4120/2023sp/
 
 ## Study sessions
 #### 01 - Course Overview
