@@ -1,0 +1,4 @@
+/home/mint/Documents/code/Cornell-CS4120/programming_assignments/1_lexical_analyser/build/CMakeFiles/etac.dir
+/home/mint/Documents/code/Cornell-CS4120/programming_assignments/1_lexical_analyser/build/CMakeFiles/test.dir
+/home/mint/Documents/code/Cornell-CS4120/programming_assignments/1_lexical_analyser/build/CMakeFiles/edit_cache.dir
+/home/mint/Documents/code/Cornell-CS4120/programming_assignments/1_lexical_analyser/build/CMakeFiles/rebuild_cache.dir
