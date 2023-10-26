@@ -6,15 +6,25 @@
 #include <vector>
 #include <gtest/gtest.h>
 
-// int add(int a, int b)
-// {
-//     return a + b;
-// }
+std::vector<std::string> handle_cli_args(const int, const char *const[]);
 
-// TEST(add, positive)
-// {
-//     ASSERT_EQ(10, add(5, 5));
-// }
+int add(int a, int b)
+{
+    return a + b;
+}
+
+TEST(add, positive)
+{
+    ASSERT_EQ(10, add(5, 5));
+}
+
+TEST(test, CompletesLexModeOnly)
+{
+    const char *const args[] = {"etac", "--lex", "./../a.eta", "./b.eta"};
+    auto input = handle_cli_args(4, args);
+    auto expected_output = {"a.eta", "b.eta"};
+    ASSERT_EQ(input, expected_output);
+}
 
 std::string extract_filename_from_path(std::string input)
 {
@@ -148,13 +158,6 @@ std::vector<std::string> handle_cli_args(const int length, const char *const arg
     {
         std::cout << ex.what() << '\n';
     }
-}
-
-TEST(test, CompletesLexModeOnly)
-{
-    const char *const args[] = {"etac", "--lex", "./../a.eta", "./b.eta"};
-    auto output = handle_cli_args(4, args);
-    ASSERT_EQ(output, {"a.eta", "b.eta"});
 }
 
 // TEST(handle_cli_args, CompletesLexModeAndDirMode)

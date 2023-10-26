@@ -7,4 +7,3 @@ add_executable(etac main.cpp)
 target_link_libraries(etac ${GTEST_LIBRARIES})
 
 enable_testing()
-add_test(test etac)
