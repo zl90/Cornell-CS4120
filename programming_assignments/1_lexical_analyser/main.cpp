@@ -18,12 +18,26 @@ TEST(add, positive)
     ASSERT_EQ(10, add(5, 5));
 }
 
-TEST(test, CompletesLexModeOnly)
+// TEST(test, CompletesLexModeOnly)
+// {
+//     const char *const args[] = {"etac", "--lex", "./../a.eta", "./b.eta"};
+//     auto input = handle_cli_args(4, args);
+//     auto expected_output = {"a.eta", "b.eta"};
+//     ASSERT_EQ(input, expected_output);
+// }
+
+TEST(HandleCliArgs, CompletesLexModeOnly)
 {
     const char *const args[] = {"etac", "--lex", "./../a.eta", "./b.eta"};
     auto input = handle_cli_args(4, args);
-    auto expected_output = {"a.eta", "b.eta"};
-    ASSERT_EQ(input, expected_output);
+    std::vector<std::string> expected_output = {"a.eta", "b.eta"};
+
+    ASSERT_EQ(input.size(), expected_output.size());
+
+    for (size_t i = 0; i < input.size(); ++i)
+    {
+        ASSERT_EQ(input[i], expected_output[i]);
+    }
 }
 
 std::string extract_filename_from_path(std::string input)
@@ -152,7 +166,7 @@ std::vector<std::string> handle_cli_args(const int length, const char *const arg
             }
         }
 
-        return input_filenames;
+        return result;
     }
     catch (std::invalid_argument const &ex)
     {
