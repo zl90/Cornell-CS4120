@@ -50,6 +50,27 @@ TEST(HandleCliArgs, CompletesDirModeFollowedByLexMode)
     }
 }
 
+TEST(HandleCliArgs, ThrowsOnMissingLexFlag)
+{
+    const char *const args[] = {"etac", "-D", "./build"};
+
+    ASSERT_THROW(handle_cli_args(3, args), std::invalid_argument);
+}
+
+TEST(HandleCliArgs, ThrowsOnMissingFilenames)
+{
+    const char *const args[] = {"etac", "--lex", "-D", "./build"};
+
+    ASSERT_THROW(handle_cli_args(4, args), std::invalid_argument);
+}
+
+TEST(HandleCliArgs, ThrowsOnIncorrectFlags)
+{
+    const char *const args[] = {"etac", "--abc"};
+
+    ASSERT_THROW(handle_cli_args(2, args), std::invalid_argument);
+}
+
 std::string extract_filename_from_path(std::string input)
 {
     std::istringstream iss(input);
@@ -188,9 +209,14 @@ std::vector<std::string> handle_cli_args(const int length, const char *const arg
 
         return result;
     }
-    catch (std::invalid_argument const &ex)
+    catch (std::invalid_argument const &exception)
     {
-        std::cout << ex.what() << '\n';
+        std::cout << exception.what() << '\n';
+
+        throw std::invalid_argument(exception.what());
+
+        std::vector<std::string> empty_vector;
+        return empty_vector;
     }
 }
 
