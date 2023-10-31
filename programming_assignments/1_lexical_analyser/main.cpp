@@ -8,29 +8,39 @@
 
 std::vector<std::string> handle_cli_args(const int, const char *const[]);
 
-int add(int a, int b)
-{
-    return a + b;
-}
-
-TEST(add, positive)
-{
-    ASSERT_EQ(10, add(5, 5));
-}
-
-// TEST(test, CompletesLexModeOnly)
-// {
-//     const char *const args[] = {"etac", "--lex", "./../a.eta", "./b.eta"};
-//     auto input = handle_cli_args(4, args);
-//     auto expected_output = {"a.eta", "b.eta"};
-//     ASSERT_EQ(input, expected_output);
-// }
-
 TEST(HandleCliArgs, CompletesLexModeOnly)
 {
     const char *const args[] = {"etac", "--lex", "./../a.eta", "./b.eta"};
     auto input = handle_cli_args(4, args);
     std::vector<std::string> expected_output = {"a.eta", "b.eta"};
+
+    ASSERT_EQ(input.size(), expected_output.size());
+
+    for (size_t i = 0; i < input.size(); ++i)
+    {
+        ASSERT_EQ(input[i], expected_output[i]);
+    }
+}
+
+TEST(HandleCliArgs, CompletesLexModeFollowedByDirMode)
+{
+    const char *const args[] = {"etac", "--lex", "./../a.eta", "./b.eta", "-D", "./build/"};
+    auto input = handle_cli_args(6, args);
+    std::vector<std::string> expected_output = {"./build/a.eta", "./build/b.eta"};
+
+    ASSERT_EQ(input.size(), expected_output.size());
+
+    for (size_t i = 0; i < input.size(); ++i)
+    {
+        ASSERT_EQ(input[i], expected_output[i]);
+    }
+}
+
+TEST(HandleCliArgs, CompletesDirModeFollowedByLexMode)
+{
+    const char *const args[] = {"etac", "-D", "./build", "--lex", "./../a.eta", "./b.eta"};
+    auto input = handle_cli_args(6, args);
+    std::vector<std::string> expected_output = {"./build/a.eta", "./build/b.eta"};
 
     ASSERT_EQ(input.size(), expected_output.size());
 
@@ -158,7 +168,17 @@ std::vector<std::string> handle_cli_args(const int length, const char *const arg
 
             if (!output_dir.empty())
             {
-                result.push_back(output_dir + extracted_filename);
+                std::string output_path = "";
+                if (output_dir.back() == '/')
+                {
+                    output_path = output_dir + extracted_filename;
+                }
+                else
+                {
+                    output_path = output_dir + "/" + extracted_filename;
+                }
+
+                result.push_back(output_path);
             }
             else
             {
@@ -173,13 +193,6 @@ std::vector<std::string> handle_cli_args(const int length, const char *const arg
         std::cout << ex.what() << '\n';
     }
 }
-
-// TEST(handle_cli_args, CompletesLexModeAndDirMode)
-// {
-//     const char *const args[] = {"etac", "--lex", "./../a.eta", "./b.eta", "-D", "../"};
-//     auto output = handle_cli_args(6, args);
-//     EXPECT_EQ(output, {"../a.eta", "../b.eta"});
-// }
 
 bool should_run_tests(const int length, const char *const args[])
 {
