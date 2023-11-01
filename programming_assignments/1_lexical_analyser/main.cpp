@@ -63,8 +63,8 @@ TEST(HandleCliArgs, CompletesDirModeFollowedByLexMode)
     const char *const args[] = {"etac", "-D", "./build", "--lex", "./../a.eta", "./b.eta"};
     auto input = handle_cli_args(6, args);
 
-    LexInfo info1 = LexInfo("./build", "a.eta");
-    LexInfo info2 = LexInfo("./build", "b.eta");
+    LexInfo info1 = LexInfo("./build/", "a.eta");
+    LexInfo info2 = LexInfo("./build/", "b.eta");
 
     std::vector<LexInfo> expected_output = {info1, info2};
 
@@ -120,14 +120,39 @@ std::string extract_filename_from_path(std::string input)
     }
 }
 
+std::string remove_file_extension(std::string input_filename)
+{
+    std::istringstream iss(input_filename);
+
+    std::vector<std::string> parts;
+
+    std::string part;
+    while (std::getline(iss, part, '.'))
+    {
+        parts.push_back(part);
+    }
+
+    if (!parts.empty())
+    {
+        return parts.front();
+    }
+    else
+    {
+        return "";
+    }
+}
+
 void print_synopsis()
 {
     std::cout << "Printing synopsis...\n";
 }
 
-void lex(const char *input_filename, const char *output_dir)
+void lex(const LexInfo &info)
 {
-    std::cout << "Lexing file: " << input_filename << std::endl;
+    std::string output_filename = info.output_dir + remove_file_extension(info.input_filename) + ".lexed";
+
+    std::cout << "Lexing input file: " << info.input_filename << '\n';
+    std::cout << "Writing output file: " << output_filename << '\n';
 }
 
 std::vector<LexInfo> handle_cli_args(const int length, const char *const args[])
@@ -211,6 +236,11 @@ std::vector<LexInfo> handle_cli_args(const int length, const char *const args[])
             throw INVALID_ARGUMENT_EXCEPTION;
         }
 
+        if (!output_dir.empty() && output_dir.back() != '/')
+        {
+            output_dir += "/";
+        }
+
         std::vector<LexInfo> result;
 
         for (std::string item : input_filenames)
@@ -252,11 +282,19 @@ int main(int argc, char *argv[])
     char *local_argv[] = {"./build/etac"};
     ::testing::InitGoogleTest(&local_argc, local_argv);
 
-    // handle_cli_args(argc, argv);
-
     if (should_run_tests(argc, argv))
     {
         return RUN_ALL_TESTS();
     }
-    return 1;
+    else
+    {
+        std::vector<LexInfo> lex_jobs = handle_cli_args(argc, argv);
+
+        for (LexInfo lex_job : lex_jobs)
+        {
+            lex(lex_job);
+        }
+    }
+
+    return 0;
 }
