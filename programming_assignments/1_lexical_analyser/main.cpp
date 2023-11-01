@@ -8,19 +8,34 @@
 
 #define INVALID_ARGUMENT_EXCEPTION std::invalid_argument("Error: invalid command line arguments supplied. Include the --help flag to see valid options.")
 
-std::vector<std::string> handle_cli_args(const int, const char *const[]);
+struct LexInfo
+{
+    std::string output_dir = "";
+    std::string input_filename = "";
+
+    LexInfo(std::string output_dir, std::string input_filename)
+    {
+        this->output_dir = output_dir;
+        this->input_filename = input_filename;
+    }
+};
+
+std::vector<LexInfo> handle_cli_args(const int, const char *const[]);
 
 TEST(HandleCliArgs, CompletesLexModeOnly)
 {
     const char *const args[] = {"etac", "--lex", "./../a.eta", "./b.eta"};
     auto input = handle_cli_args(4, args);
-    std::vector<std::string> expected_output = {"a.eta", "b.eta"};
 
-    ASSERT_EQ(input.size(), expected_output.size());
+    LexInfo info1 = LexInfo("", "a.eta");
+    LexInfo info2 = LexInfo("", "b.eta");
+
+    std::vector<LexInfo> expected_output = {info1, info2};
 
     for (size_t i = 0; i < input.size(); ++i)
     {
-        ASSERT_EQ(input[i], expected_output[i]);
+        ASSERT_EQ(input[i].input_filename, expected_output[i].input_filename);
+        ASSERT_EQ(input[i].output_dir, expected_output[i].output_dir);
     }
 }
 
@@ -28,13 +43,18 @@ TEST(HandleCliArgs, CompletesLexModeFollowedByDirMode)
 {
     const char *const args[] = {"etac", "--lex", "./../a.eta", "./b.eta", "-D", "./build/"};
     auto input = handle_cli_args(6, args);
-    std::vector<std::string> expected_output = {"a.eta", "b.eta"};
+
+    LexInfo info1 = LexInfo("./build/", "a.eta");
+    LexInfo info2 = LexInfo("./build/", "b.eta");
+
+    std::vector<LexInfo> expected_output = {info1, info2};
 
     ASSERT_EQ(input.size(), expected_output.size());
 
     for (size_t i = 0; i < input.size(); ++i)
     {
-        ASSERT_EQ(input[i], expected_output[i]);
+        ASSERT_EQ(input[i].input_filename, expected_output[i].input_filename);
+        ASSERT_EQ(input[i].output_dir, expected_output[i].output_dir);
     }
 }
 
@@ -42,13 +62,18 @@ TEST(HandleCliArgs, CompletesDirModeFollowedByLexMode)
 {
     const char *const args[] = {"etac", "-D", "./build", "--lex", "./../a.eta", "./b.eta"};
     auto input = handle_cli_args(6, args);
-    std::vector<std::string> expected_output = {"a.eta", "b.eta"};
+
+    LexInfo info1 = LexInfo("./build", "a.eta");
+    LexInfo info2 = LexInfo("./build", "b.eta");
+
+    std::vector<LexInfo> expected_output = {info1, info2};
 
     ASSERT_EQ(input.size(), expected_output.size());
 
     for (size_t i = 0; i < input.size(); ++i)
     {
-        ASSERT_EQ(input[i], expected_output[i]);
+        ASSERT_EQ(input[i].input_filename, expected_output[i].input_filename);
+        ASSERT_EQ(input[i].output_dir, expected_output[i].output_dir);
     }
 }
 
@@ -105,14 +130,14 @@ void lex(const char *input_filename, const char *output_dir)
     std::cout << "Lexing file: " << input_filename << std::endl;
 }
 
-std::vector<std::string> handle_cli_args(const int length, const char *const args[])
+std::vector<LexInfo> handle_cli_args(const int length, const char *const args[])
 {
     try
     {
         if (length == 1 || (length == 2 && std::strcmp(args[1], "--help") == 0))
         {
             print_synopsis();
-            std::vector<std::string> empty_vector;
+            std::vector<LexInfo> empty_vector;
             return empty_vector;
         }
 
@@ -186,12 +211,13 @@ std::vector<std::string> handle_cli_args(const int length, const char *const arg
             throw INVALID_ARGUMENT_EXCEPTION;
         }
 
-        std::vector<std::string> result;
+        std::vector<LexInfo> result;
 
         for (std::string item : input_filenames)
         {
             std::string extracted_filename = extract_filename_from_path(item);
-            result.push_back(extracted_filename);
+            LexInfo lex_info = LexInfo(output_dir, extracted_filename);
+            result.push_back(lex_info);
         }
 
         return result;
@@ -202,7 +228,7 @@ std::vector<std::string> handle_cli_args(const int length, const char *const arg
 
         throw std::invalid_argument(exception.what());
 
-        std::vector<std::string> empty_vector;
+        std::vector<LexInfo> empty_vector;
         return empty_vector;
     }
 }
