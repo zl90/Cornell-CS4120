@@ -6,6 +6,8 @@
 #include <vector>
 #include <gtest/gtest.h>
 
+#define INVALID_ARGUMENT_EXCEPTION std::invalid_argument("Error: invalid command line arguments supplied. Include the --help flag to see valid options.")
+
 std::vector<std::string> handle_cli_args(const int, const char *const[]);
 
 TEST(HandleCliArgs, CompletesLexModeOnly)
@@ -116,6 +118,7 @@ std::vector<std::string> handle_cli_args(const int length, const char *const arg
 
         std::vector<std::string> input_filenames;
         std::string output_dir = "";
+        bool has_lex_flag = false;
 
         if (length >= 3)
         {
@@ -135,6 +138,12 @@ std::vector<std::string> handle_cli_args(const int length, const char *const arg
 
                 if (arg == "--lex")
                 {
+                    if (is_dirname_mode && output_dir.empty())
+                    {
+                        throw INVALID_ARGUMENT_EXCEPTION;
+                    }
+
+                    has_lex_flag = true;
                     is_lex_mode = true;
                     is_dirname_mode = false;
                     i++;
@@ -142,6 +151,11 @@ std::vector<std::string> handle_cli_args(const int length, const char *const arg
                 }
                 else if (arg == "-D")
                 {
+                    if (is_lex_mode && input_filenames.empty())
+                    {
+                        throw INVALID_ARGUMENT_EXCEPTION;
+                    }
+
                     is_lex_mode = false;
                     is_dirname_mode = true;
                     i++;
@@ -150,21 +164,7 @@ std::vector<std::string> handle_cli_args(const int length, const char *const arg
 
                 if (is_lex_mode)
                 {
-                    if (arg == "-D" && input_filenames.empty())
-                    {
-                        throw std::invalid_argument("Error: invalid command line arguments supplied. Include the --help flag to see valid options.");
-                    }
-                    else if (arg == "-D")
-                    {
-                        is_lex_mode = false;
-                        is_dirname_mode = true;
-                        i++;
-                        continue;
-                    }
-                    else
-                    {
-                        input_filenames.push_back(arg);
-                    }
+                    input_filenames.push_back(arg);
                 }
                 else if (is_dirname_mode)
                 {
@@ -178,7 +178,12 @@ std::vector<std::string> handle_cli_args(const int length, const char *const arg
         }
         else
         {
-            throw std::invalid_argument("Error: invalid command line arguments supplied. Include the --help flag to see valid options.");
+            throw INVALID_ARGUMENT_EXCEPTION;
+        }
+
+        if (input_filenames.empty() || !has_lex_flag)
+        {
+            throw INVALID_ARGUMENT_EXCEPTION;
         }
 
         std::vector<std::string> result;
