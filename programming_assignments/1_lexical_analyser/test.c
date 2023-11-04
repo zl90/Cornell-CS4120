@@ -1,34 +1,8 @@
-/* This is a flex rule file. This gets fed to the
-flex program and it generates a scanner program */
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
-%{
-int row_num = 1, col_num = 1;
-
-char *remove_quotations(char *str)
-{
-    int str_length = strlen(str);
-
-    if (str_length <= 2)
-    {
-        return "";
-    }
-
-    if ((str[0] == '\'' || str[0] == '\"') && (str[str_length - 1] == '\'' || str[str_length - 1] == '\"'))
-    {
-        for (size_t i = 0; i < str_length; i++)
-        {
-            // Shift the characters to remove the first character
-            str[i] = str[i + 1];
-        }
-
-        // Null-terminate the string to remove the last character
-        str[str_length - 2] = '\0';
-    }
-
-    return str;
-}
-
-char *handle_unicode_escape_sequences(char *str)
+char *processString(char *str)
 {
     char *result = (char *)malloc(strlen(str) + 1);
     if (!result)
@@ -102,38 +76,70 @@ char *handle_unicode_escape_sequences(char *str)
 
     return result;
 }
-%}
 
-DIGIT           [0-9]
-INTEGER         (-)?{DIGIT}+
-HEXADECIMAL     [0-9a-fA-F]{1,6}
-NEWLINE         \n
-CHARACTER       '([^'\\\n]|\\.)'|'\''|'\\'|'\\x\{{HEXADECIMAL}\}'
-STRING          \"[^\"]*\"
-SYMBOL          (\/|==|>=|<=|\*\>\>|!=|\+|-|\*|%|=|&|\||!|>|<|\{|\}|\[|\]|\(|\)|;|\:)
-KEYWORD         use|if|while|else|return|length|int|bool|true|false
-ID              [a-zA-Z_][a-zA-Z0-9_]*
-COMMENT         \/\/[^\n]*
-INVALID_CHAR    \'\'|\'[^\'\n]*
-
-%%
-{CHARACTER}     {printf("%d:%d character %s\n", row_num, col_num, remove_quotations(handle_unicode_escape_sequences(yytext))); col_num += yyleng;}
-{STRING}        {printf("%d:%d string %s\n", row_num, col_num, remove_quotations(handle_unicode_escape_sequences(yytext))); col_num += yyleng;}
-{INTEGER}       {printf("%d:%d integer %s\n", row_num, col_num, yytext); col_num += yyleng;}
-{KEYWORD}       {printf("%d:%d %s\n", row_num, col_num, yytext); col_num += yyleng;}
-{ID}            {printf("%d:%d id %s\n", row_num, col_num, yytext); col_num += yyleng;}
-{SYMBOL}        {printf("%d:%d %s\n", row_num, col_num, yytext); col_num += yyleng;}
-{INVALID_CHAR}    {printf("%d:%d error:Invalid character constant\n", row_num, col_num); yyterminate();}
-{COMMENT}       {/* Ignore coments */}
-{NEWLINE}       {++row_num; col_num = 1;}
-.               {++col_num;}
-%%
-
-yywrap()
+char *remove_quotations(char *str)
 {
+    int str_length = strlen(str);
+
+    if (str_length <= 2)
+    {
+        return str;
+    }
+
+    if ((str[0] == '\'' || str[0] == '\"') && (str[str_length - 1] == '\'' || str[str_length - 1] == '\"'))
+    {
+        for (size_t i = 0; i < str_length; i++)
+        {
+            // Shift the characters to remove the first character
+            str[i] = str[i + 1];
+        }
+
+        // Null-terminate the string to remove the last character
+        str[str_length - 2] = '\0';
+    }
+
+    return str;
 }
 
-int main() {
-    yylex();
+int main()
+{
+    // char *input1 = "This is a \\x{48}\\x{65}\\x{6C}\\x{6C}\\x{6F} message.";
+    // char *input2 = "This is a \\x{48}\\x{65}\\x{6C}\\x{6C}\\x{6F} message.\\x{}";
+    // char *input3 = "This is a \\x{48}\\x{65}\\x{6C}\\x{6C}\\x{6F} message.\\x{12345}";
+    // char *input4 = "This is a \\x{48}\\x{65}\\x{6C}\\x{6C}\\x{6F} message.\\x{12A}";
+    // char *input5 = "This is a \\x{48}\\x{65}\\x{6C}\\x{6C}\\x{6F} message.\\x{X}";
+
+    // char *result1 = processString(input1);
+    // char *result2 = processString(input2);
+    // char *result3 = processString(input3);
+    // char *result4 = processString(input4);
+    // char *result5 = processString(input5);
+
+    // printf("%s\n", result1);
+    // printf("%s\n", result2);
+    // printf("%s\n", result3);
+    // printf("%s\n", result4);
+    // printf("%s\n", result5);
+
+    // free(result1);
+    // free(result2);
+    // free(result3);
+    // free(result4);
+    // free(result5);
+
+    char result6[] = "\"a\"";     // a
+    char result7[] = "\'\'";      // ''
+    char result8[] = "a";         // a
+    char result9[] = "\'abc\'";   // abc
+    char result10[] = "\"aaaa\""; // aaaa
+    char result11[] = "\"\"";     // ""
+
+    printf("%s\n", remove_quotations(result6));
+    printf("%s\n", remove_quotations(result7));
+    printf("%s\n", remove_quotations(result8));
+    printf("%s\n", remove_quotations(result9));
+    printf("%s\n", remove_quotations(result10));
+    printf("%s\n", remove_quotations(result11));
+
     return 0;
 }
