@@ -5,10 +5,9 @@ find_package(GTest REQUIRED)
 
 # Define a custom command to run flex and generate lex.yy.c
 add_custom_command(
-    OUTPUT lexer
-    COMMAND flex flex_input.l
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    DEPENDS flex_input.l
+    OUTPUT lex.yy.c
+    COMMAND flex ${CMAKE_CURRENT_SOURCE_DIR}/flex_input.l
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/flex_input.l
     COMMENT "Running flex on flex_input.l"
 )
 

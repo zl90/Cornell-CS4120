@@ -106,7 +106,7 @@ char *handle_unicode_escape_sequences(char *str)
 %}
 
 DIGIT           [0-9]
-INTEGER         (-)?{DIGIT}+
+INTEGER         {DIGIT}+
 HEXADECIMAL     [0-9a-fA-F]{1,6}
 NEWLINE         \n
 CHARACTER       '([^'\\\n]|\\.)'|'\''|'\\'|'\\x\{{HEXADECIMAL}\}'
