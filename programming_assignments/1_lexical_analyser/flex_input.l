@@ -116,18 +116,20 @@ KEYWORD         use|if|while|else|return|length|int|bool|true|false
 ID              [a-zA-Z_][a-zA-Z0-9_]*
 COMMENT         \/\/[^\n]*
 INVALID_CHAR    \'\'|\'[^\'\n]*
+INVALID_SYMBOL  [\?#@`]
 
 %%
-{CHARACTER}     {printf("%d:%d character %s\n", row_num, col_num, remove_quotations(handle_unicode_escape_sequences(yytext))); col_num += yyleng;}
-{STRING}        {printf("%d:%d string %s\n", row_num, col_num, remove_quotations(handle_unicode_escape_sequences(yytext))); col_num += yyleng;}
-{INTEGER}       {printf("%d:%d integer %s\n", row_num, col_num, yytext); col_num += yyleng;}
-{KEYWORD}       {printf("%d:%d %s\n", row_num, col_num, yytext); col_num += yyleng;}
-{ID}            {printf("%d:%d id %s\n", row_num, col_num, yytext); col_num += yyleng;}
-{SYMBOL}        {printf("%d:%d %s\n", row_num, col_num, yytext); col_num += yyleng;}
-{INVALID_CHAR}    {printf("%d:%d error:Invalid character constant\n", row_num, col_num); yyterminate();}
-{COMMENT}       {/* Ignore coments */}
-{NEWLINE}       {++row_num; col_num = 1;}
-.               {++col_num;}
+{CHARACTER}         {printf("%d:%d character %s\n", row_num, col_num, remove_quotations(handle_unicode_escape_sequences(yytext))); col_num += yyleng;}
+{STRING}            {printf("%d:%d string %s\n", row_num, col_num, remove_quotations(handle_unicode_escape_sequences(yytext))); col_num += yyleng;}
+{INTEGER}           {printf("%d:%d integer %s\n", row_num, col_num, yytext); col_num += yyleng;}
+{KEYWORD}           {printf("%d:%d %s\n", row_num, col_num, yytext); col_num += yyleng;}
+{ID}                {printf("%d:%d id %s\n", row_num, col_num, yytext); col_num += yyleng;}
+{SYMBOL}            {printf("%d:%d %s\n", row_num, col_num, yytext); col_num += yyleng;}
+{INVALID_CHAR}      {printf("%d:%d error:Invalid character constant\n", row_num, col_num); yyterminate();}
+{INVALID_SYMBOL}    {printf("%d:%d error:Invalid symbol\n", row_num, col_num); yyterminate();}
+{COMMENT}           {/* Ignore coments */}
+{NEWLINE}           {++row_num; col_num = 1;}
+.                   {++col_num;}
 %%
 
 yywrap()
