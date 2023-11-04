@@ -111,7 +111,7 @@ HEXADECIMAL     [0-9a-fA-F]{1,6}
 NEWLINE         \n
 CHARACTER       '([^'\\\n]|\\.)'|'\''|'\\'|'\\x\{{HEXADECIMAL}\}'
 STRING          \"[^\"]*\"
-SYMBOL          (\/|==|>=|<=|\*\>\>|!=|\+|-|\*|%|=|&|\||!|>|<|\{|\}|\[|\]|\(|\)|;|\:)
+SYMBOL          (\/|==|>=|<=|\*\>\>|!=|\+|,|-|\*|%|=|&|\||!|>|<|\{|\}|\[|\]|\(|\)|;|\:)
 KEYWORD         use|if|while|else|return|length|int|bool|true|false
 ID              [a-zA-Z_][a-zA-Z0-9_]*
 COMMENT         \/\/[^\n]*
