@@ -600,7 +600,7 @@ char *handle_unicode_escape_sequences(char *str)
                 char *end;
                 long unicode_value = strtol(unicode_hex, &end, 16);
 
-                if (*end == '\0')
+                if (*end == '\0' && unicode_value >= 32 && unicode_value <= 126)
                 {
                     // Valid hexadecimal value
                     result[result_index++] = (char)unicode_value;
@@ -608,9 +608,10 @@ char *handle_unicode_escape_sequences(char *str)
                 }
                 else
                 {
-                    // Not a valid hexadecimal value, copy as is
+                    // Not a valid hexadecimal value (or special/unprintable character), copy as is
                     result[result_index++] = '\\';
                     result[result_index++] = 'x';
+                    result[result_index++] = '{';
                     for (int j = 0; j < hex_index; j++)
                     {
                         result[result_index++] = unicode_hex[j];
@@ -639,8 +640,8 @@ char *handle_unicode_escape_sequences(char *str)
 
     return result;
 }
-#line 643 "lex.yy.c"
 #line 644 "lex.yy.c"
+#line 645 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -857,9 +858,9 @@ YY_DECL
 		}
 
 	{
-#line 119 "flex_input.l"
+#line 120 "flex_input.l"
 
-#line 863 "lex.yy.c"
+#line 864 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -918,62 +919,62 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 120 "flex_input.l"
+#line 121 "flex_input.l"
 {printf("%d:%d character %s\n", row_num, col_num, remove_quotations(handle_unicode_escape_sequences(yytext))); col_num += yyleng;}
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 121 "flex_input.l"
+#line 122 "flex_input.l"
 {printf("%d:%d string %s\n", row_num, col_num, remove_quotations(handle_unicode_escape_sequences(yytext))); col_num += yyleng;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 122 "flex_input.l"
+#line 123 "flex_input.l"
 {printf("%d:%d integer %s\n", row_num, col_num, yytext); col_num += yyleng;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 123 "flex_input.l"
+#line 124 "flex_input.l"
 {printf("%d:%d %s\n", row_num, col_num, yytext); col_num += yyleng;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 124 "flex_input.l"
+#line 125 "flex_input.l"
 {printf("%d:%d id %s\n", row_num, col_num, yytext); col_num += yyleng;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 125 "flex_input.l"
+#line 126 "flex_input.l"
 {printf("%d:%d %s\n", row_num, col_num, yytext); col_num += yyleng;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 126 "flex_input.l"
+#line 127 "flex_input.l"
 {printf("%d:%d error:Invalid character constant\n", row_num, col_num); yyterminate();}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 127 "flex_input.l"
+#line 128 "flex_input.l"
 {/* Ignore coments */}
 	YY_BREAK
 case 9:
 /* rule 9 can match eol */
 YY_RULE_SETUP
-#line 128 "flex_input.l"
+#line 129 "flex_input.l"
 {++row_num; col_num = 1;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 129 "flex_input.l"
+#line 130 "flex_input.l"
 {++col_num;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 130 "flex_input.l"
+#line 131 "flex_input.l"
 ECHO;
 	YY_BREAK
-#line 977 "lex.yy.c"
+#line 978 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1978,7 +1979,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 130 "flex_input.l"
+#line 131 "flex_input.l"
 
 
 yywrap()

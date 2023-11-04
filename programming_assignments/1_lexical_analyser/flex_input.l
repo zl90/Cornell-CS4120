@@ -63,7 +63,7 @@ char *handle_unicode_escape_sequences(char *str)
                 char *end;
                 long unicode_value = strtol(unicode_hex, &end, 16);
 
-                if (*end == '\0')
+                if (*end == '\0' && unicode_value >= 32 && unicode_value <= 126)
                 {
                     // Valid hexadecimal value
                     result[result_index++] = (char)unicode_value;
@@ -71,9 +71,10 @@ char *handle_unicode_escape_sequences(char *str)
                 }
                 else
                 {
-                    // Not a valid hexadecimal value, copy as is
+                    // Not a valid hexadecimal value (or special/unprintable character), copy as is
                     result[result_index++] = '\\';
                     result[result_index++] = 'x';
+                    result[result_index++] = '{';
                     for (int j = 0; j < hex_index; j++)
                     {
                         result[result_index++] = unicode_hex[j];
