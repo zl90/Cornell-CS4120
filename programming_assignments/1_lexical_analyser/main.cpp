@@ -8,29 +8,29 @@
 
 #define INVALID_ARGUMENT_EXCEPTION std::invalid_argument("Error: invalid command line arguments supplied. Include the --help flag to see valid options.")
 
-struct LexInfo
+struct LexInput
 {
     std::string output_dir = "";
     std::string input_filename = "";
 
-    LexInfo(std::string output_dir, std::string input_filename)
+    LexInput(std::string output_dir, std::string input_filename)
     {
         this->output_dir = output_dir;
         this->input_filename = input_filename;
     }
 };
 
-std::vector<LexInfo> handle_cli_args(const int, const char *const[]);
+std::vector<LexInput> handle_cli_args(const int, const char *const[]);
 
 TEST(HandleCliArgs, CompletesLexModeOnly)
 {
     const char *const args[] = {"etac", "--lex", "./../a.eta", "./b.eta"};
     auto input = handle_cli_args(4, args);
 
-    LexInfo info1 = LexInfo("", "a.eta");
-    LexInfo info2 = LexInfo("", "b.eta");
+    LexInput info1 = LexInput("", "a.eta");
+    LexInput info2 = LexInput("", "b.eta");
 
-    std::vector<LexInfo> expected_output = {info1, info2};
+    std::vector<LexInput> expected_output = {info1, info2};
 
     for (size_t i = 0; i < input.size(); ++i)
     {
@@ -44,10 +44,10 @@ TEST(HandleCliArgs, CompletesLexModeFollowedByDirMode)
     const char *const args[] = {"etac", "--lex", "./../a.eta", "./b.eta", "-D", "./build/"};
     auto input = handle_cli_args(6, args);
 
-    LexInfo info1 = LexInfo("./build/", "a.eta");
-    LexInfo info2 = LexInfo("./build/", "b.eta");
+    LexInput info1 = LexInput("./build/", "a.eta");
+    LexInput info2 = LexInput("./build/", "b.eta");
 
-    std::vector<LexInfo> expected_output = {info1, info2};
+    std::vector<LexInput> expected_output = {info1, info2};
 
     ASSERT_EQ(input.size(), expected_output.size());
 
@@ -63,10 +63,10 @@ TEST(HandleCliArgs, CompletesDirModeFollowedByLexMode)
     const char *const args[] = {"etac", "-D", "./build", "--lex", "./../a.eta", "./b.eta"};
     auto input = handle_cli_args(6, args);
 
-    LexInfo info1 = LexInfo("./build/", "a.eta");
-    LexInfo info2 = LexInfo("./build/", "b.eta");
+    LexInput info1 = LexInput("./build/", "a.eta");
+    LexInput info2 = LexInput("./build/", "b.eta");
 
-    std::vector<LexInfo> expected_output = {info1, info2};
+    std::vector<LexInput> expected_output = {info1, info2};
 
     ASSERT_EQ(input.size(), expected_output.size());
 
@@ -147,7 +147,7 @@ void print_synopsis()
     std::cout << "Printing synopsis...\n";
 }
 
-void lex(const LexInfo &info)
+void lex(const LexInput &info)
 {
     std::string output_filename = info.output_dir + remove_file_extension(info.input_filename) + ".lexed";
 
@@ -155,14 +155,14 @@ void lex(const LexInfo &info)
     std::cout << "Writing output file: " << output_filename << '\n';
 }
 
-std::vector<LexInfo> handle_cli_args(const int length, const char *const args[])
+std::vector<LexInput> handle_cli_args(const int length, const char *const args[])
 {
     try
     {
         if (length == 1 || (length == 2 && std::strcmp(args[1], "--help") == 0))
         {
             print_synopsis();
-            std::vector<LexInfo> empty_vector;
+            std::vector<LexInput> empty_vector;
             return empty_vector;
         }
 
@@ -241,12 +241,12 @@ std::vector<LexInfo> handle_cli_args(const int length, const char *const args[])
             output_dir += "/";
         }
 
-        std::vector<LexInfo> result;
+        std::vector<LexInput> result;
 
         for (std::string item : input_filenames)
         {
             std::string extracted_filename = extract_filename_from_path(item);
-            LexInfo lex_info = LexInfo(output_dir, extracted_filename);
+            LexInput lex_info = LexInput(output_dir, extracted_filename);
             result.push_back(lex_info);
         }
 
@@ -258,7 +258,7 @@ std::vector<LexInfo> handle_cli_args(const int length, const char *const args[])
 
         throw std::invalid_argument(exception.what());
 
-        std::vector<LexInfo> empty_vector;
+        std::vector<LexInput> empty_vector;
         return empty_vector;
     }
 }
@@ -288,9 +288,9 @@ int main(int argc, char *argv[])
     }
     else
     {
-        std::vector<LexInfo> lex_jobs = handle_cli_args(argc, argv);
+        std::vector<LexInput> lex_jobs = handle_cli_args(argc, argv);
 
-        for (LexInfo lex_job : lex_jobs)
+        for (LexInput lex_job : lex_jobs)
         {
             lex(lex_job);
         }
