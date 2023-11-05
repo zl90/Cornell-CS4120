@@ -1,10 +1,14 @@
 #include <iostream>
 #include <string>
+#include <cstdio>
+#include <memory>
+#include <array>
+#include <filesystem>
 #include <cstring>
 #include <sstream>
+#include <fstream>
 #include <stdexcept>
 #include <vector>
-#include <filesystem>
 #include <system_error>
 #include <gtest/gtest.h>
 
@@ -30,13 +34,21 @@ std::string lex(const LexInput &);
 
 TEST(Lex, LexesValidInputFile)
 {
-    LexInput lex_input = LexInput("./test_input/test.eta", "./build/test.lexed");
-    std::string input = lex(lex_input);
+    LexInput lex_input1 = LexInput("./test_input/test.eta", "./build/test.lexed");
+    std::string input1 = lex(lex_input1);
 
     std::string
-        expected_output = {"1:1 int\n1:5 id main\n1:9 ;"};
+        expected_output1 = {"1:1 int\n1:5 id main\n1:9 ;\n"};
 
-    ASSERT_EQ(input, expected_output);
+    ASSERT_EQ(input1, expected_output1);
+
+    LexInput lex_input2 = LexInput("./test_input/test2.eta", "./build/test2.lexed");
+    std::string input2 = lex(lex_input2);
+
+    std::string
+        expected_output2 = {"1:1 bool\n1:6 id x\n2:1 id a\n2:2 :\n2:3 int\n2:6 [\n2:7 ]\n2:9 =\n2:11 string \nasdf\n\n"};
+
+    ASSERT_EQ(input2, expected_output2);
 }
 
 TEST(Lex, ThrowsOnInvalidInputFile)
@@ -170,12 +182,45 @@ void print_synopsis()
     std::cout << "Printing synopsis...\n";
 }
 
+std::string execute_command(const char *command)
+{
+    std::array<char, 128> buffer;
+    std::string result;
+    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(command, "r"), pclose);
+    if (!pipe)
+    {
+        throw std::runtime_error("Incorrect input filename");
+    }
+    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr)
+    {
+        result += buffer.data();
+    }
+    return result;
+}
+
+void write_to_file(std::string filename, std::string data)
+{
+    std::ofstream file;
+    file.open(filename);
+    file << data;
+    file.close();
+}
+
 std::string lex(const LexInput &info)
 {
+    if (!std::filesystem::exists(info.input_filename))
+    {
+        throw std::filesystem::filesystem_error("Invalid input filename", std::error_code());
+    }
+
     std::string result = "";
 
     std::cout << "Lexing input file: " << info.input_filename << '\n';
+    std::string command = LEXER_PATH + "<" + info.input_filename;
+    result = execute_command(command.c_str());
+
     std::cout << "Writing output file: " << info.output_filename << '\n';
+    write_to_file(info.output_filename, result);
 
     return result;
 }
