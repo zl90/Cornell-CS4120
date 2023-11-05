@@ -4,19 +4,45 @@
 #include <sstream>
 #include <stdexcept>
 #include <vector>
+#include <optional>
 #include <gtest/gtest.h>
 
 #define INVALID_ARGUMENT_EXCEPTION std::invalid_argument("Error: invalid command line arguments supplied. Include the --help flag to see valid options.")
 
+const std::string LEXER_PATH = "./build/lexer";
+const std::string LEXER_OUTPUT_FILE_EXTENSION = ".lexed";
+
 struct LexInput
 {
-    std::string input_filename = "";
-    std::string output_filename = "";
+    std::string input_filename;
+    std::string output_filename;
 
     LexInput(std::string input_filename, std::string output_filename)
     {
         this->input_filename = input_filename;
         this->output_filename = output_filename;
+    }
+};
+
+enum TokenType
+{
+    ID,
+    INTEGER,
+    CHARACTER,
+    STRING,
+    SYMBOL,
+    KEYWORD
+};
+
+struct Token
+{
+    TokenType type;
+    std::optional<std::string> value;
+
+    Token(TokenType type, std::optional<std::string> value)
+    {
+        this->type = type;
+        this->value = value;
     }
 };
 
@@ -147,11 +173,14 @@ void print_synopsis()
     std::cout << "Printing synopsis...\n";
 }
 
-void lex(const LexInput &info)
+std::vector<Token> lex(const LexInput &info)
 {
 
     std::cout << "Lexing input file: " << info.input_filename << '\n';
     std::cout << "Writing output file: " << info.output_filename << '\n';
+
+    std::vector<Token> empty_vector;
+    return empty_vector;
 }
 
 std::vector<LexInput> handle_cli_args(const int length, const char *const args[])
@@ -246,7 +275,7 @@ std::vector<LexInput> handle_cli_args(const int length, const char *const args[]
         {
             std::string extracted_filename = extract_filename_from_path(input_filename);
             std::string filename_without_extension = remove_file_extension(extracted_filename);
-            std::string output_filename = output_dir + filename_without_extension + ".lexed";
+            std::string output_filename = output_dir + filename_without_extension + LEXER_OUTPUT_FILE_EXTENSION;
             LexInput lex_info = LexInput(input_filename, output_filename);
             result.push_back(lex_info);
         }
