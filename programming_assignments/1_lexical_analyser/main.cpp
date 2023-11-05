@@ -46,7 +46,7 @@ TEST(Lex, LexesValidInputFile)
     std::string input2 = lex(lex_input2);
 
     std::string
-        expected_output2 = {"1:1 bool\n1:6 id x\n2:1 id a\n2:2 :\n2:3 int\n2:6 [\n2:7 ]\n2:9 =\n2:11 string \nasdf\n\n"};
+        expected_output2 = {"1:1 bool\n1:6 id x\n2:1 id a\n2:2 :\n2:3 int\n2:6 [\n2:7 ]\n2:9 =\n2:11 error:Invalid string constant\n"};
 
     ASSERT_EQ(input2, expected_output2);
 }
@@ -179,7 +179,7 @@ std::string remove_file_extension(std::string input_filename)
 
 void print_synopsis()
 {
-    std::cout << "Printing synopsis...\n";
+    std::cout << "\e[1mNAME\e[0m\n\tetac - the Eta Compiler\n\n\e[1mSYNOPSIS\n\tetac\e[0m [OPTIONS] [FILE]...\n\n\e[1mDESCRIPTION\e[0m\n\tReads in input files of the .eta format and produces output files in the .lexed format containing the results of a lexical scan.\n\n\e[1mOPTIONS\n\t--help\e[0m\n\t\tdisplay the help menu\n\n\t\e[1m--lex\e[0m [FILE]\n\t\tperform a lexical scan on the filenames [FILE]\n\n\t\e[1m-D\e[0m [DIR]\n\t\tspecify the directory to store the output files. If not specified, files are outputted to the current working directory\n\n\e[1mEXAMPLES\e[0m\n\t./etac -D ./build --lex hello_world.eta foo.eta bar.eta\n\t./etac --lex hello_world.eta" << std::endl;
 }
 
 std::string execute_command(const char *command)

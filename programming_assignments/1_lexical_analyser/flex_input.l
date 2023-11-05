@@ -110,12 +110,13 @@ INTEGER         {DIGIT}+
 HEXADECIMAL     [0-9a-fA-F]{1,6}
 NEWLINE         \n
 CHARACTER       '([^'\\\n]|\\.)'|'\''|'\\'|'\\x\{{HEXADECIMAL}\}'
-STRING          \"[^\"]*\"
+STRING          \"[^\"^\n]*\"
 SYMBOL          (\/|==|>=|<=|\*\>\>|!=|\+|,|-|\*|%|=|&|\||!|>|<|\{|\}|\[|\]|\(|\)|;|\:)
 KEYWORD         use|if|while|else|return|length|int|bool|true|false
 ID              [a-zA-Z_][a-zA-Z0-9_]*
 COMMENT         \/\/[^\n]*
 INVALID_CHAR    \'\'|\'[^\'\n]*
+INVALID_STRING  \"[^\"\n]*
 INVALID_SYMBOL  [\?#@`]
 
 %%
@@ -126,6 +127,7 @@ INVALID_SYMBOL  [\?#@`]
 {ID}                {printf("%d:%d id %s\n", row_num, col_num, yytext); col_num += yyleng;}
 {SYMBOL}            {printf("%d:%d %s\n", row_num, col_num, yytext); col_num += yyleng;}
 {INVALID_CHAR}      {printf("%d:%d error:Invalid character constant\n", row_num, col_num); yyterminate();}
+{INVALID_STRING}    {printf("%d:%d error:Invalid string constant\n", row_num, col_num); yyterminate();}
 {INVALID_SYMBOL}    {printf("%d:%d error:Invalid symbol\n", row_num, col_num); yyterminate();}
 {COMMENT}           {/* Ignore coments */}
 {NEWLINE}           {++row_num; col_num = 1;}
