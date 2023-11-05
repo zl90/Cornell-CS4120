@@ -1,1 +1,4 @@
 build/
+./vscode/
+../vscode/
+test.eta

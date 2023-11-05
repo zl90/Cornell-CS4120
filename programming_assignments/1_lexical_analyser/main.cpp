@@ -10,13 +10,13 @@
 
 struct LexInput
 {
-    std::string output_dir = "";
     std::string input_filename = "";
+    std::string output_filename = "";
 
-    LexInput(std::string output_dir, std::string input_filename)
+    LexInput(std::string input_filename, std::string output_filename)
     {
-        this->output_dir = output_dir;
         this->input_filename = input_filename;
+        this->output_filename = output_filename;
     }
 };
 
@@ -27,15 +27,15 @@ TEST(HandleCliArgs, CompletesLexModeOnly)
     const char *const args[] = {"etac", "--lex", "./../a.eta", "./b.eta"};
     auto input = handle_cli_args(4, args);
 
-    LexInput info1 = LexInput("", "a.eta");
-    LexInput info2 = LexInput("", "b.eta");
+    LexInput info1 = LexInput("./../a.eta", "a.lexed");
+    LexInput info2 = LexInput("./b.eta", "b.lexed");
 
     std::vector<LexInput> expected_output = {info1, info2};
 
     for (size_t i = 0; i < input.size(); ++i)
     {
         ASSERT_EQ(input[i].input_filename, expected_output[i].input_filename);
-        ASSERT_EQ(input[i].output_dir, expected_output[i].output_dir);
+        ASSERT_EQ(input[i].output_filename, expected_output[i].output_filename);
     }
 }
 
@@ -44,8 +44,8 @@ TEST(HandleCliArgs, CompletesLexModeFollowedByDirMode)
     const char *const args[] = {"etac", "--lex", "./../a.eta", "./b.eta", "-D", "./build/"};
     auto input = handle_cli_args(6, args);
 
-    LexInput info1 = LexInput("./build/", "a.eta");
-    LexInput info2 = LexInput("./build/", "b.eta");
+    LexInput info1 = LexInput("./../a.eta", "./build/a.lexed");
+    LexInput info2 = LexInput("./b.eta", "./build/b.lexed");
 
     std::vector<LexInput> expected_output = {info1, info2};
 
@@ -54,7 +54,7 @@ TEST(HandleCliArgs, CompletesLexModeFollowedByDirMode)
     for (size_t i = 0; i < input.size(); ++i)
     {
         ASSERT_EQ(input[i].input_filename, expected_output[i].input_filename);
-        ASSERT_EQ(input[i].output_dir, expected_output[i].output_dir);
+        ASSERT_EQ(input[i].output_filename, expected_output[i].output_filename);
     }
 }
 
@@ -63,8 +63,8 @@ TEST(HandleCliArgs, CompletesDirModeFollowedByLexMode)
     const char *const args[] = {"etac", "-D", "./build", "--lex", "./../a.eta", "./b.eta"};
     auto input = handle_cli_args(6, args);
 
-    LexInput info1 = LexInput("./build/", "a.eta");
-    LexInput info2 = LexInput("./build/", "b.eta");
+    LexInput info1 = LexInput("./../a.eta", "./build/a.lexed");
+    LexInput info2 = LexInput("./b.eta", "./build/b.lexed");
 
     std::vector<LexInput> expected_output = {info1, info2};
 
@@ -73,7 +73,7 @@ TEST(HandleCliArgs, CompletesDirModeFollowedByLexMode)
     for (size_t i = 0; i < input.size(); ++i)
     {
         ASSERT_EQ(input[i].input_filename, expected_output[i].input_filename);
-        ASSERT_EQ(input[i].output_dir, expected_output[i].output_dir);
+        ASSERT_EQ(input[i].output_filename, expected_output[i].output_filename);
     }
 }
 
@@ -149,10 +149,9 @@ void print_synopsis()
 
 void lex(const LexInput &info)
 {
-    std::string output_filename = info.output_dir + remove_file_extension(info.input_filename) + ".lexed";
 
     std::cout << "Lexing input file: " << info.input_filename << '\n';
-    std::cout << "Writing output file: " << output_filename << '\n';
+    std::cout << "Writing output file: " << info.output_filename << '\n';
 }
 
 std::vector<LexInput> handle_cli_args(const int length, const char *const args[])
@@ -243,10 +242,12 @@ std::vector<LexInput> handle_cli_args(const int length, const char *const args[]
 
         std::vector<LexInput> result;
 
-        for (std::string item : input_filenames)
+        for (std::string input_filename : input_filenames)
         {
-            std::string extracted_filename = extract_filename_from_path(item);
-            LexInput lex_info = LexInput(output_dir, extracted_filename);
+            std::string extracted_filename = extract_filename_from_path(input_filename);
+            std::string filename_without_extension = remove_file_extension(extracted_filename);
+            std::string output_filename = output_dir + filename_without_extension + ".lexed";
+            LexInput lex_info = LexInput(input_filename, output_filename);
             result.push_back(lex_info);
         }
 
