@@ -55,7 +55,10 @@
         "set": "cpp",
         "optional": "cpp",
         "iomanip": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "chrono": "cpp",
+        "codecvt": "cpp",
+        "ratio": "cpp"
     },
     "cmake.sourceDirectory": "/home/mint/Documents/code/Cornell-CS4120/programming_assignments/1_lexical_analyser"
 }

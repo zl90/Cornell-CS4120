@@ -5,6 +5,8 @@
 #include <stdexcept>
 #include <vector>
 #include <optional>
+#include <filesystem>
+#include <system_error>
 #include <gtest/gtest.h>
 
 #define INVALID_ARGUMENT_EXCEPTION std::invalid_argument("Error: invalid command line arguments supplied. Include the --help flag to see valid options.")
@@ -36,17 +38,52 @@ enum TokenType
 
 struct Token
 {
+    long row_num;
+    long col_num;
     TokenType type;
     std::optional<std::string> value;
 
-    Token(TokenType type, std::optional<std::string> value)
+    Token(long row_num, long col_num, TokenType type, std::optional<std::string> value)
     {
+        this->row_num = row_num;
+        this->col_num = col_num;
         this->type = type;
         this->value = value;
     }
 };
 
 std::vector<LexInput> handle_cli_args(const int, const char *const[]);
+std::vector<Token> lex(const LexInput &);
+
+TEST(Lex, LexesValidInputFile)
+{
+    LexInput lex_input = LexInput("./test_input/test.eta", "./build/test.lexed");
+    std::vector<Token> input = lex(lex_input);
+
+    std::optional<std::string> empty_value;
+
+    Token token1 = Token(1, 1, KEYWORD, empty_value);
+    Token token2 = Token(1, 5, ID, "main");
+    Token token3 = Token(1, 9, SYMBOL, ";");
+    std::vector<Token>
+        expected_output = {token1, token2, token3};
+
+    ASSERT_EQ(input.size(), expected_output.size());
+
+    for (size_t i = 0; i < input.size(); ++i)
+    {
+        ASSERT_EQ(input[i].row_num, expected_output[i].row_num);
+        ASSERT_EQ(input[i].col_num, expected_output[i].col_num);
+        ASSERT_EQ(input[i].type, expected_output[i].type);
+        ASSERT_EQ(input[i].value, expected_output[i].value);
+    }
+}
+
+TEST(Lex, ThrowsOnInvalidInputFile)
+{
+    LexInput lex_input = LexInput("./test_input/test1.eta", "./build/test.lexed");
+    ASSERT_THROW(lex(lex_input), std::filesystem::filesystem_error);
+}
 
 TEST(HandleCliArgs, CompletesLexModeOnly)
 {
