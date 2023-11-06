@@ -55,14 +55,18 @@ This was a solid first assignment, as it threw me in the deep end and I had to l
 - Discovered the Github kanban board (Projects)! --> Had no idea this existed until I stumbled upon it while working on this assignment.
 
 **Some questions from the assignment spec**
+
 *Have you thought about the key data structures in this assignment?*
+
 I figured we would need some way to pass the filenames and directory name from the command line arguments to the actual lex program. To do this I built a custom data type named `LexInfo` which contained the relevant information needed by the lex function - namely the `input_filename` and the `output_filename`.
 I elected not to create a custom data structure to store the output of the lexer because this will need to be handled in the 2nd assignment, where we will presumably read the `.lexed` output files into memory to get a list of tokens. 
 
 *Have you thought through the key algorithms and identified implementation challenges?*
+
 Parsing the CLI arguments was something I decided to do myself (as opposed to using a library to do it) as I wanted to control the format of the output so I could send it to the lexer. This ended up working well.
 Additionally, inside the Flex input file I had some choices to make, I could have used custom rule states and alternated between them to get the expected output (for example: using a `INSIDE_STRING_LITERAL` state to dictate how the scanner operates when currently scanning a string literal), or using my own custom C functions inside the existing rules. I realised that I didn't actually need custom rule states and everything I wanted could be accomplished with two custom C functions: `handle_unicode_escape_sequences` and `remove_quotations`.
 
 *Do you have a testing strategy that covers the possible inputs and the different kinds of functionality you are implementing?*
+
 Yes, I used the Google Test suite to unit test each input file and check them against the official solutions. All tests are passing.
 
