@@ -31,24 +31,160 @@ struct LexInput
 
 std::vector<LexInput> handle_cli_args(const int, const char *const[]);
 std::string lex(const LexInput &);
+std::string read_from_file(std::string);
 
-TEST(Lex, LexesValidInputFile)
+TEST(Lex, LexesAddFile)
 {
-    LexInput lex_input1 = LexInput("./test_input/test.eta", "./build/test.lexed");
-    std::string input1 = lex(lex_input1);
+    LexInput lex_input = LexInput("./test_input/add.eta", "./build/add.lexed");
+    std::string input = lex(lex_input);
 
     std::string
-        expected_output1 = {"1:1 int\n1:5 id main\n1:9 ;\n"};
+        expected_output = read_from_file("./test_solutions/add.lexedsol");
 
-    ASSERT_EQ(input1, expected_output1);
+    ASSERT_EQ(input, expected_output);
+}
 
-    LexInput lex_input2 = LexInput("./test_input/test2.eta", "./build/test2.lexed");
-    std::string input2 = lex(lex_input2);
+TEST(Lex, LexesArrayInitFile)
+{
+    LexInput lex_input = LexInput("./test_input/arrayinit.eta", "./build/arrayinit.lexed");
+    std::string input = lex(lex_input);
 
     std::string
-        expected_output2 = {"1:1 bool\n1:6 id x\n2:1 id a\n2:2 :\n2:3 int\n2:6 [\n2:7 ]\n2:9 =\n2:11 error:Invalid string constant\n"};
+        expected_output = read_from_file("./test_solutions/arrayinit.lexedsol");
 
-    ASSERT_EQ(input2, expected_output2);
+    ASSERT_EQ(input, expected_output);
+}
+
+TEST(Lex, LexesArrayInit2File)
+{
+    LexInput lex_input = LexInput("./test_input/arrayinit2.eta", "./build/arrayinit2.lexed");
+    std::string input = lex(lex_input);
+
+    std::string
+        expected_output = read_from_file("./test_solutions/arrayinit2.lexedsol");
+
+    ASSERT_EQ(input, expected_output);
+}
+
+TEST(Lex, LexesBeautyFile)
+{
+    LexInput lex_input = LexInput("./test_input/beauty.eta", "./build/beauty.lexed");
+    std::string input = lex(lex_input);
+
+    std::string
+        expected_output = read_from_file("./test_solutions/beauty.lexedsol");
+
+    ASSERT_EQ(input, expected_output);
+}
+
+TEST(Lex, LexesEx1File)
+{
+    LexInput lex_input = LexInput("./test_input/ex1.eta", "./build/ex1.lexed");
+    std::string input = lex(lex_input);
+
+    std::string
+        expected_output = read_from_file("./test_solutions/ex1.lexedsol");
+
+    ASSERT_EQ(input, expected_output);
+}
+
+TEST(Lex, LexesEx2File)
+{
+    LexInput lex_input = LexInput("./test_input/ex2.eta", "./build/ex2.lexed");
+    std::string input = lex(lex_input);
+
+    std::string
+        expected_output = read_from_file("./test_solutions/ex2.lexedsol");
+
+    ASSERT_EQ(input, expected_output);
+}
+
+TEST(Lex, LexesGcdFile)
+{
+    LexInput lex_input = LexInput("./test_input/gcd.eta", "./build/gcd.lexed");
+    std::string input = lex(lex_input);
+
+    std::string
+        expected_output = read_from_file("./test_solutions/gcd.lexedsol");
+
+    ASSERT_EQ(input, expected_output);
+}
+
+TEST(Lex, LexesInsertionSortFile)
+{
+    LexInput lex_input = LexInput("./test_input/insertionsort.eta", "./build/insertionsort.lexed");
+    std::string input = lex(lex_input);
+
+    std::string
+        expected_output = read_from_file("./test_solutions/insertionsort.lexedsol");
+
+    ASSERT_EQ(input, expected_output);
+}
+
+TEST(Lex, LexesMdarraysFile)
+{
+    LexInput lex_input = LexInput("./test_input/mdarrays.eta", "./build/mdarrays.lexed");
+    std::string input = lex(lex_input);
+
+    std::string
+        expected_output = read_from_file("./test_solutions/mdarrays.lexedsol");
+
+    ASSERT_EQ(input, expected_output);
+}
+
+TEST(Lex, LexesRatAddFile)
+{
+    LexInput lex_input = LexInput("./test_input/ratadd.eta", "./build/ratadd.lexed");
+    std::string input = lex(lex_input);
+
+    std::string
+        expected_output = read_from_file("./test_solutions/ratadd.lexedsol");
+
+    ASSERT_EQ(input, expected_output);
+}
+
+TEST(Lex, LexesRatAddUseFile)
+{
+    LexInput lex_input = LexInput("./test_input/ratadduse.eta", "./build/ratadduse.lexed");
+    std::string input = lex(lex_input);
+
+    std::string
+        expected_output = read_from_file("./test_solutions/ratadduse.lexedsol");
+
+    ASSERT_EQ(input, expected_output);
+}
+
+TEST(Lex, LexesSpec1File)
+{
+    LexInput lex_input = LexInput("./test_input/spec1.eta", "./build/spec1.lexed");
+    std::string input = lex(lex_input);
+
+    std::string
+        expected_output = read_from_file("./test_solutions/spec1.lexedsol");
+
+    ASSERT_EQ(input, expected_output);
+}
+
+TEST(Lex, LexesSpec2File)
+{
+    LexInput lex_input = LexInput("./test_input/spec2.eta", "./build/spec2.lexed");
+    std::string input = lex(lex_input);
+
+    std::string
+        expected_output = read_from_file("./test_solutions/spec2.lexedsol");
+
+    ASSERT_EQ(input, expected_output);
+}
+
+TEST(Lex, LexesSpec3File)
+{
+    LexInput lex_input = LexInput("./test_input/spec3.eta", "./build/spec3.lexed");
+    std::string input = lex(lex_input);
+
+    std::string
+        expected_output = read_from_file("./test_solutions/spec3.lexedsol");
+
+    ASSERT_EQ(input, expected_output);
 }
 
 TEST(Lex, ThrowsOnInvalidInputFile)
@@ -195,6 +331,27 @@ std::string execute_command(const char *command)
     {
         result += buffer.data();
     }
+    return result;
+}
+
+std::string read_from_file(std::string filename)
+{
+    std::ifstream inputFile(filename);
+    if (!inputFile.is_open())
+    {
+        throw std::filesystem::filesystem_error("Invalid input filename: " + filename, std::error_code());
+        return "";
+    }
+
+    std::string result = "";
+    std::string line;
+    while (std::getline(inputFile, line))
+    {
+        result += line + "\n";
+    }
+
+    inputFile.close();
+
     return result;
 }
 

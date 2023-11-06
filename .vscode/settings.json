@@ -58,7 +58,8 @@
         "variant": "cpp",
         "chrono": "cpp",
         "codecvt": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "fstream": "cpp"
     },
     "cmake.sourceDirectory": "/home/mint/Documents/code/Cornell-CS4120/programming_assignments/1_lexical_analyser"
 }
