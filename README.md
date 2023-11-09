@@ -42,6 +42,14 @@ My study session: https://www.youtube.com/watch?v=B2myITLRHy8
 
 Before going too deep on Syntactic Analysis, I decide to tackle the first programming assignment. Here you can see me going through the assignment spec and the Eta language spec.
 
+#### 08 - Assignment 1 DONE!
+Me demoing the finished assignment: https://www.youtube.com/watch?v=WoRMcVGTsW0
+
+#### 09 - Bottom-up parsing
+My study session: https://www.youtube.com/watch?v=KakDREosyKw
+
+Here we learn how Predictive Parsing Tables (PPTs) are generated and used to easily implement Recursive Descent Parsers. This was a challenging lesson for me, particularly the algorithms for computing the FIRST and FOLLOWS sets. I ended up finding youtube videos that showed these algorithms being done in a visual way which helped me understand better.
+
 ## Programming Assignments
 #### Assignment 1 - Lexical Analysis: Retrospective
 Me demoing the finished assignment: https://www.youtube.com/watch?v=WoRMcVGTsW0
