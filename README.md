@@ -51,9 +51,9 @@ My study session: https://www.youtube.com/watch?v=KakDREosyKw
 Here we learn how Predictive Parsing Tables (PPTs) are generated and used to easily implement Recursive Descent Parsers. This was a challenging lesson for me, particularly the algorithms for computing the FIRST and FOLLOWS sets. I ended up finding youtube videos that showed these algorithms being done in a visual way which helped me understand better.
 
 If you are struggling, here are some videos which may help:
-- (LL(1) Parsing)[https://www.youtube.com/watch?v=clkHOgZUGWU]
-- (FIRST and FOLLOW functions)[https://www.youtube.com/watch?v=oOCromcWnfc]
-- (LL(1) Parsing Table)[https://www.youtube.com/watch?v=DT-cbznw9aY]
+- [LL(1) Parsing](https://www.youtube.com/watch?v=clkHOgZUGWU)
+- [FIRST and FOLLOW functions](https://www.youtube.com/watch?v=oOCromcWnfc)
+- [LL(1) Parsing Table](https://www.youtube.com/watch?v=DT-cbznw9aY)
 
 ## Programming Assignments
 #### Assignment 1 - Lexical Analysis: Retrospective
