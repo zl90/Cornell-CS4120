@@ -45,7 +45,7 @@ Before going too deep on Syntactic Analysis, I decide to tackle the first progra
 #### 08 - Assignment 1 DONE!
 Me demoing the finished assignment: https://www.youtube.com/watch?v=WoRMcVGTsW0
 
-#### 09 - Bottom-up parsing
+#### 09 - Top-Down parsing
 My study session: https://www.youtube.com/watch?v=KakDREosyKw
 
 Here we learn how Predictive Parsing Tables (PPTs) are generated and used to easily implement Recursive Descent Parsers. This was a challenging lesson for me, particularly the algorithms for computing the FIRST and FOLLOWS sets. I ended up finding youtube videos that showed these algorithms being done in a visual way which helped me understand better.
@@ -54,6 +54,11 @@ If you are struggling, here are some videos which may help:
 - [LL(1) Parsing](https://www.youtube.com/watch?v=clkHOgZUGWU)
 - [FIRST and FOLLOW functions](https://www.youtube.com/watch?v=oOCromcWnfc)
 - [LL(1) Parsing Table](https://www.youtube.com/watch?v=DT-cbznw9aY)
+
+#### 10 - Bottom-up parsing
+My study session: https://www.youtube.com/watch?v=PDaQlcEZw7Q
+
+More parsing algorithms. We learn the ingeneously simple Earley parsing algorithm, as well as the Shift-Reduce (LR) parsing algorithm. These are tough to decipher from the lecture notes and notation. Again, look up the algorithms on Youtube if you are struggling --> this really helped me to understand better! We will need to know these algorithms to complete the homework.
 
 ## Programming Assignments
 #### Assignment 1 - Lexical Analysis: Retrospective
