@@ -65,6 +65,11 @@ My study session: https://www.youtube.com/watch?v=br7SDWXZxic
 
 We are introduced to the LR(1) and LALR parser algorithms which are very similar to the LR(0) algorithm but more powerful. We also learn about reduce-reduce and shift-reduce conflicts that can occur in LR parsers with ambiguous grammars.
 
+#### 12 - ASTs and Errors
+My study session: https://www.youtube.com/watch?v=l1COOJMFnlE
+
+In this very short lesson we get an overview of Abstract Syntax Trees (ASTs) and how they are different from the parse tree. We also get a rundown of how compilers handle error states while parsing.
+
 ## Programming Assignments
 #### Assignment 1 - Lexical Analysis: Retrospective
 Me demoing the finished assignment: https://www.youtube.com/watch?v=WoRMcVGTsW0
