@@ -1,6 +1,8 @@
 # Cornell-CS4120
 I'm taking Cornell University's "Introduction to Compilers" course. Follow along with me!
 
+*Note: this is an experiment. I won't be teaching you compilers. You'll have to do the hard work yourself, unfortunately. This is more like a journal of how I studied the course. It's very possible that these videos won't help you at all. But I'm still uploading them with the hopes that they do help someone. At the very least, maybe the videos will inspire others to expand their intellectual horizons. I would consider that a victory in and of itself.*
+
 ### Course information
 This is one of the best introductory compiler courses out there and it's completely free. The lecture videos are available only to Cornell students, but the lecture notes are just as good, if not better than the lecture videos (their words, not mine). I'll be doing the lessons, the supplemental readings, the homework assignments and the programming assignments.
 
