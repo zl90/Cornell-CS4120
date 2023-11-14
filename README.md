@@ -60,6 +60,11 @@ My study session: https://www.youtube.com/watch?v=PDaQlcEZw7Q
 
 More parsing algorithms. We learn the ingeneously simple Earley parsing algorithm, as well as the Shift-Reduce (LR) parsing algorithm. These are tough to decipher from the lecture notes and notation. Again, look up the algorithms on Youtube if you are struggling --> this really helped me to understand better! We will need to know these algorithms to complete the homework.
 
+#### 11 - LR parsing and parser generators
+My study session: https://www.youtube.com/watch?v=br7SDWXZxic
+
+We are introduced to the LR(1) and LALR parser algorithms which are very similar to the LR(0) algorithm but more powerful. We also learn about reduce-reduce and shift-reduce conflicts that can occur in LR parsers with ambiguous grammars.
+
 ## Programming Assignments
 #### Assignment 1 - Lexical Analysis: Retrospective
 Me demoing the finished assignment: https://www.youtube.com/watch?v=WoRMcVGTsW0
