@@ -72,6 +72,11 @@ My study session: https://www.youtube.com/watch?v=l1COOJMFnlE
 
 In this very short lesson we get an overview of Abstract Syntax Trees (ASTs) and how they are different from the parse tree. We also get a rundown of how compilers handle error states while parsing.
 
+#### 13 - Homework Assignment 2
+My study session: https://www.youtube.com/watch?v=weXjvcn4k30
+
+We go through the homework questions related to Syntactic Analysis.
+
 ## Programming Assignments
 #### Assignment 1 - Lexical Analysis: Retrospective
 Me demoing the finished assignment: https://www.youtube.com/watch?v=WoRMcVGTsW0
