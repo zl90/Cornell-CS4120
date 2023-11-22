@@ -125,16 +125,16 @@ INVALID_STRING  \"[^\"\n]*
 INVALID_SYMBOL  [\?#@`]
 
 %%
-{CHARACTER}         {col_num += yyleng; sscanf(remove_quotations(handle_unicode_escape_sequences(yytext)), "%s", yylval.character); return CHARACTER;}
-{STRING}            {col_num += yyleng; sscanf(remove_quotations(handle_unicode_escape_sequences(yytext)), "%s", yylval.string); return STRING;}
-{INTEGER}           {col_num += yyleng; yylval.integer = atoi(yytext); return INTEGER;}
-{KEYWORD}           {col_num += yyleng; sscanf(yytext, "%s", yylval.keyword); return KEYWORD;}
-{ID}                {col_num += yyleng; sscanf(yytext, "%s", yylval.id); return ID;}
-{SYMBOL}            {col_num += yyleng; sscanf(yytext, "%s", yylval.symbol); return SYMBOL;}
-{EMPTY_CHAR}        {sscanf("error:empty character literal", "%s", yylval.error); return ERROR; yyterminate();}
-{INVALID_CHAR}      {sscanf("error:Invalid character literal", "%s", yylval.error); return ERROR; yyterminate();}
-{INVALID_STRING}    {sscanf("error:Invalid string literal", "%s", yylval.error); return ERROR; yyterminate();}
-{INVALID_SYMBOL}    {sscanf("error:Invalid symbol", "%s", yylval.error); return ERROR; yyterminate();}
+{CHARACTER}         {col_num += yyleng; yylval.character = strdup(remove_quotations(handle_unicode_escape_sequences(yytext))); return CHARACTER;}
+{STRING}            {col_num += yyleng; yylval.string = strdup(remove_quotations(handle_unicode_escape_sequences(yytext))); return STRING;}
+{INTEGER}           {col_num += yyleng; yylval.integer = atoi(yytext); yylval.row_num = row_num; yylval.col_num = col_num; return INTEGER;}
+{KEYWORD}           {col_num += yyleng; yylval.keyword = strdup(yytext); return KEYWORD;}
+{ID}                {col_num += yyleng; yylval.id = strdup(yytext); return ID;}
+{SYMBOL}            {col_num += yyleng; yylval.symbol = strdup(yytext); return SYMBOL;}
+{EMPTY_CHAR}        {yylval.error = strdup("error:empty character literal"); return ERROR; yyterminate();}
+{INVALID_CHAR}      {yylval.error = strdup("error:Invalid character literal"); return ERROR; yyterminate();}
+{INVALID_STRING}    {yylval.error = strdup("error:Invalid string literal"); return ERROR; yyterminate();}
+{INVALID_SYMBOL}    {yylval.error = strdup("error:Invalid symbol"); return ERROR; yyterminate();}
 {COMMENT}           {/* Ignore coments */}
 {NEWLINE}           {++row_num; col_num = 1; return NEWLINE;}
 .                   {++col_num;}

@@ -25,6 +25,9 @@
     char *id;
     char *symbol;
     char *error;
+    int length;
+    int row_num;
+    int col_num;
 }
 
 %%
@@ -41,10 +44,10 @@ stmt:
         printf("Hello to you too %s", $1);
     }
     | INTEGER {
-        printf("That is a number");
+        printf("That is a number: %d", $1);
     }
     | CHARACTER {
-        printf("Character: %s", $1);
+        printf("Character: %s\n", $1);
     }
     | ERROR
 ;
