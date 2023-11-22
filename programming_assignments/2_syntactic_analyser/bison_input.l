@@ -4,7 +4,7 @@ flex program and it generates a scanner program */
 %{
 #include <stdio.h>
 #include <string.h>
-#include "build/bison_input.tab.h"
+#include "bison_input.h"
 
 int row_num = 1, col_num = 1;
 
@@ -125,21 +125,21 @@ INVALID_STRING  \"[^\"\n]*
 INVALID_SYMBOL  [\?#@`]
 
 %%
-{CHARACTER}         {printf("%d:%d character %s\n", row_num, col_num, remove_quotations(handle_unicode_escape_sequences(yytext))); col_num += yyleng; sscanf(yytext, "%s", yylval.name); return CHARACTER;}
-{STRING}            {printf("%d:%d string %s\n", row_num, col_num, remove_quotations(handle_unicode_escape_sequences(yytext))); col_num += yyleng; sscanf(yytext, "%s", yylval.name); return STRING;}
-{INTEGER}           {printf("%d:%d integer %s\n", row_num, col_num, yytext); col_num += yyleng;}
-{KEYWORD}           {printf("%d:%d %s\n", row_num, col_num, yytext); col_num += yyleng;}
-{ID}                {printf("%d:%d id %s\n", row_num, col_num, yytext); col_num += yyleng;}
-{SYMBOL}            {printf("%d:%d %s\n", row_num, col_num, yytext); col_num += yyleng;}
-{EMPTY_CHAR}        {printf("%d:%d error:empty character literal\n", row_num, col_num); yyterminate();}
-{INVALID_CHAR}      {printf("%d:%d error:Invalid character literal\n", row_num, col_num); yyterminate();}
-{INVALID_STRING}    {printf("%d:%d error:Invalid string literal\n", row_num, col_num); yyterminate();}
-{INVALID_SYMBOL}    {printf("%d:%d error:Invalid symbol\n", row_num, col_num); yyterminate();}
+{CHARACTER}         {col_num += yyleng; sscanf(remove_quotations(handle_unicode_escape_sequences(yytext)), "%s", yylval.character); return CHARACTER;}
+{STRING}            {col_num += yyleng; sscanf(remove_quotations(handle_unicode_escape_sequences(yytext)), "%s", yylval.string); return STRING;}
+{INTEGER}           {col_num += yyleng; yylval.integer = atoi(yytext); return INTEGER;}
+{KEYWORD}           {col_num += yyleng; sscanf(yytext, "%s", yylval.keyword); return KEYWORD;}
+{ID}                {col_num += yyleng; sscanf(yytext, "%s", yylval.id); return ID;}
+{SYMBOL}            {col_num += yyleng; sscanf(yytext, "%s", yylval.symbol); return SYMBOL;}
+{EMPTY_CHAR}        {sscanf("error:empty character literal", "%s", yylval.error); return ERROR; yyterminate();}
+{INVALID_CHAR}      {sscanf("error:Invalid character literal", "%s", yylval.error); return ERROR; yyterminate();}
+{INVALID_STRING}    {sscanf("error:Invalid string literal", "%s", yylval.error); return ERROR; yyterminate();}
+{INVALID_SYMBOL}    {sscanf("error:Invalid symbol", "%s", yylval.error); return ERROR; yyterminate();}
 {COMMENT}           {/* Ignore coments */}
-{NEWLINE}           {++row_num; col_num = 1;}
+{NEWLINE}           {++row_num; col_num = 1; return NEWLINE;}
 .                   {++col_num;}
 %%
 
-yywrap()
+int yywrap()
 {
 }
