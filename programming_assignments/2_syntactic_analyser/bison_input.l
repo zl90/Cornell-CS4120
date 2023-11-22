@@ -4,7 +4,7 @@ flex program and it generates a scanner program */
 %{
 #include <stdio.h>
 #include <string.h>
-#include "bison_input.h"
+#include "bison_input.tab.h"
 
 int row_num = 1, col_num = 1;
 
