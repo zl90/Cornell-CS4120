@@ -43,6 +43,9 @@ stmt:
     | INTEGER {
         printf("That is a number");
     }
+    | CHARACTER {
+        printf("Character: %s", $1);
+    }
     | ERROR
 ;
 

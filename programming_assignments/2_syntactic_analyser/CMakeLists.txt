@@ -3,6 +3,9 @@ project("etac")
 
 find_package(GTest REQUIRED)
 
+# Create the build directory if it doesn't exist
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build)
+
 # Define a custom command to run flex and generate lex.yy.c
 add_custom_command(
     OUTPUT lex.yy.c
@@ -11,12 +14,11 @@ add_custom_command(
     COMMENT "Running flex on flex_input.l"
 )
 
-
 # Define a custom command to run bison
 add_custom_command(
-    OUTPUT bison_input.c
+    OUTPUT bison_input.tab.c
     COMMAND bison -d -t ${CMAKE_CURRENT_SOURCE_DIR}/bison_input.y
-    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/bison_input.l
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/bison_input.y
     COMMENT "Running bison on bison_input.y"
 )
 
@@ -24,7 +26,7 @@ add_custom_command(
 add_custom_command(
     OUTPUT bison.yy.c
     COMMAND flex -o ${CMAKE_CURRENT_SOURCE_DIR}/build/bison.yy.c ${CMAKE_CURRENT_SOURCE_DIR}/bison_input.l 
-    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/bison_input.l
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/build/bison_input.tab.h
     COMMENT "Running flex on bison_input.l"
 )
 
