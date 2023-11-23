@@ -7,14 +7,21 @@
     int yyerror(char *s);
 %}
 
-%token CHARACTER STRING INTEGER KEYWORD ID SYMBOL ERROR NEWLINE
+%token CHARACTER
+%token STRING
+%token INTEGER
+%token ID
+%token USE IF WHILE ELSE RETURN LENGTH INT BOOL TRUE FALSE
+%token FWD_SLASH EQUALS GTE LTE MULT_SHIFT NOT_EQUALS PLUS COMMA MINUS UNDERSCORE MULTIPLY MODULO ASSIGNMENT AND PIPE BANG GT LT L_BRACKETS R_BRACKETS L_CURLY_BRACES R_CURLY_BRACES L_PARENS R_PARENS SEMICOLON COLON
+%token ERROR
+%token NEWLINE
 
 %type <character> CHARACTER
 %type <string> STRING
 %type <integer> INTEGER
-%type <keyword> KEYWORD
+%type <keyword> USE IF WHILE ELSE RETURN LENGTH INT BOOL TRUE FALSE
 %type <id> ID
-%type <symbol> SYMBOL
+%type <symbol> FWD_SLASH EQUALS GTE LTE MULT_SHIFT NOT_EQUALS PLUS COMMA MINUS UNDERSCORE MULTIPLY MODULO ASSIGNMENT AND PIPE BANG GT LT L_BRACKETS R_BRACKETS L_CURLY_BRACES R_CURLY_BRACES L_PARENS R_PARENS SEMICOLON COLON
 %type <error> ERROR
 
 %union {
@@ -47,9 +54,53 @@ stmt:
         printf("That is a number: %d", $1);
     }
     | CHARACTER {
-        printf("Character: %s\n", $1);
+        printf("Character: %s", $1);
     }
+    | symbol
+    | keyword
     | ERROR
+;
+
+symbol:
+    FWD_SLASH
+    | EQUALS
+    | GTE
+    | LTE
+    | MULT_SHIFT
+    | NOT_EQUALS
+    | PLUS
+    | COMMA
+    | MINUS
+    | UNDERSCORE
+    | MULTIPLY
+    | MODULO
+    | ASSIGNMENT
+    | AND
+    | PIPE
+    | BANG
+    | GT
+    | LT
+    | L_BRACKETS
+    | R_BRACKETS
+    | L_CURLY_BRACES
+    | R_CURLY_BRACES
+    | L_PARENS
+    | R_PARENS
+    | SEMICOLON
+    | COLON
+;
+
+keyword:
+    USE
+    | IF
+    | WHILE
+    | ELSE
+    | RETURN
+    | LENGTH
+    | INT
+    | BOOL
+    | TRUE
+    | FALSE
 ;
 
 %%

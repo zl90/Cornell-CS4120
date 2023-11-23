@@ -115,8 +115,6 @@ HEXADECIMAL     [0-9a-fA-F]{1,6}
 NEWLINE         \n
 CHARACTER       '([^'\\\n]|\\.)'|'\''|'\\'|'\\x\{{HEXADECIMAL}\}'
 STRING          \"[^\"^\n]*\"
-SYMBOL          (\/|==|>=|<=|\*\>\>|!=|\+|,|-|_|\*|%|=|&|\||!|>|<|\{|\}|\[|\]|\(|\)|;|\:)
-KEYWORD         use|if|while|else|return|length|int|bool|true|false
 ID              [a-zA-Z][a-zA-Z0-9_\']*
 COMMENT         \/\/[^\n]*
 EMPTY_CHAR      \'\'
@@ -125,12 +123,46 @@ INVALID_STRING  \"[^\"\n]*
 INVALID_SYMBOL  [\?#@`]
 
 %%
+"use"               {col_num += yyleng; return USE;}
+"if"                {col_num += yyleng; return IF;}
+"while"             {col_num += yyleng; return WHILE;}
+"else"              {col_num += yyleng; return ELSE;}
+"return"            {col_num += yyleng; return RETURN;}
+"length"            {col_num += yyleng; return LENGTH;}
+"int"               {col_num += yyleng; return INT;}
+"bool"              {col_num += yyleng; return BOOL;}
+"true"              {col_num += yyleng; return TRUE;}
+"false"             {col_num += yyleng; return FALSE;}
 {CHARACTER}         {col_num += yyleng; yylval.character = strdup(remove_quotations(handle_unicode_escape_sequences(yytext))); return CHARACTER;}
 {STRING}            {col_num += yyleng; yylval.string = strdup(remove_quotations(handle_unicode_escape_sequences(yytext))); return STRING;}
 {INTEGER}           {col_num += yyleng; yylval.integer = atoi(yytext); yylval.row_num = row_num; yylval.col_num = col_num; return INTEGER;}
-{KEYWORD}           {col_num += yyleng; yylval.keyword = strdup(yytext); return KEYWORD;}
 {ID}                {col_num += yyleng; yylval.id = strdup(yytext); return ID;}
-{SYMBOL}            {col_num += yyleng; yylval.symbol = strdup(yytext); return SYMBOL;}
+"/"                 {col_num += yyleng; return FWD_SLASH;}
+"=="                {col_num += yyleng; return EQUALS;}
+">="                {col_num += yyleng; return GTE;}
+"<="                {col_num += yyleng; return LTE;}
+"*>>"               {col_num += yyleng; return MULT_SHIFT;}
+"!="                {col_num += yyleng; return NOT_EQUALS;}
+"+"                 {col_num += yyleng; return PLUS;}
+","                 {col_num += yyleng; return COMMA;}
+"-"                 {col_num += yyleng; return MINUS;}
+"_"                 {col_num += yyleng; return UNDERSCORE;}
+"*"                 {col_num += yyleng; return MULTIPLY;}
+"%"                 {col_num += yyleng; return MODULO;}
+"="                 {col_num += yyleng; return ASSIGNMENT;}
+"&"                 {col_num += yyleng; return AND;}
+"|"                 {col_num += yyleng; return PIPE;}
+"!"                 {col_num += yyleng; return BANG;}
+">"                 {col_num += yyleng; return GT;}
+"<"                 {col_num += yyleng; return LT;}
+"{"                 {col_num += yyleng; return L_CURLY_BRACES;}
+"}"                 {col_num += yyleng; return R_CURLY_BRACES;}
+"["                 {col_num += yyleng; return L_BRACKETS;}
+"]"                 {col_num += yyleng; return R_BRACKETS;}
+"("                 {col_num += yyleng; return L_PARENS;}
+")"                 {col_num += yyleng; return R_PARENS;}
+";"                 {col_num += yyleng; return SEMICOLON;}
+":"                 {col_num += yyleng; return COLON;}
 {EMPTY_CHAR}        {yylval.error = strdup("error:empty character literal"); return ERROR; yyterminate();}
 {INVALID_CHAR}      {yylval.error = strdup("error:Invalid character literal"); return ERROR; yyterminate();}
 {INVALID_STRING}    {yylval.error = strdup("error:Invalid string literal"); return ERROR; yyterminate();}
