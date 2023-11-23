@@ -12,7 +12,7 @@
 %token INTEGER
 %token ID
 %token USE IF WHILE ELSE RETURN LENGTH INT BOOL TRUE FALSE
-%token FWD_SLASH EQUALS GTE LTE MULT_SHIFT NOT_EQUALS PLUS COMMA MINUS UNDERSCORE MULTIPLY MODULO ASSIGNMENT AND PIPE BANG GT LT L_BRACKETS R_BRACKETS L_CURLY_BRACES R_CURLY_BRACES L_PARENS R_PARENS SEMICOLON COLON
+%token DIVIDE EQUALS GTE LTE HIGH_MULTIPLY NOT_EQUALS PLUS COMMA MINUS UNDERSCORE MULTIPLY MODULO ASSIGNMENT AND OR BANG GT LT L_BRACKETS R_BRACKETS L_CURLY_BRACES R_CURLY_BRACES L_PARENS R_PARENS SEMICOLON COLON
 %token ERROR
 %token NEWLINE
 
@@ -21,20 +21,15 @@
 %type <integer> INTEGER
 %type <keyword> USE IF WHILE ELSE RETURN LENGTH INT BOOL TRUE FALSE
 %type <id> ID
-%type <symbol> FWD_SLASH EQUALS GTE LTE MULT_SHIFT NOT_EQUALS PLUS COMMA MINUS UNDERSCORE MULTIPLY MODULO ASSIGNMENT AND PIPE BANG GT LT L_BRACKETS R_BRACKETS L_CURLY_BRACES R_CURLY_BRACES L_PARENS R_PARENS SEMICOLON COLON
+%type <symbol> DIVIDE EQUALS GTE LTE HIGH_MULTIPLY NOT_EQUALS PLUS COMMA MINUS UNDERSCORE MULTIPLY MODULO ASSIGNMENT AND OR BANG GT LT L_BRACKETS R_BRACKETS L_CURLY_BRACES R_CURLY_BRACES L_PARENS R_PARENS SEMICOLON COLON
 %type <error> ERROR
 
 %union {
     char *character;
     char *string;
     int integer;
-    char *keyword;
     char *id;
-    char *symbol;
     char *error;
-    int length;
-    int row_num;
-    int col_num;
 }
 
 %%
@@ -45,41 +40,58 @@ prog:
 
 stmts:
     | stmt NEWLINE stmts
-
-stmt:
-    STRING {
-        printf("Hello to you too %s", $1);
-    }
-    | INTEGER {
-        printf("That is a number: %d", $1);
-    }
-    | CHARACTER {
-        printf("Character: %s", $1);
-    }
-    | symbol
-    | keyword
-    | ERROR
 ;
 
-symbol:
-    FWD_SLASH
-    | EQUALS
+stmt:
+    IF expression stmt {printf("SUCCESS!!!!");}
+    | expression {printf("Ended up at a statement...");}
+;
+
+expression: 
+    ID operator primary_expression
+    | primary_expression
+    | L_PARENS expression R_PARENS
+;
+
+primary_expression:
+    ID
+    | STRING
+    | INTEGER
+    | CHARACTER
+;
+
+operator:
+    comparison_operator
+    | arithmetic_operator
+    | logical_operator
+    | ASSIGNMENT
+;
+
+comparison_operator:
+    EQUALS
     | GTE
     | LTE
-    | MULT_SHIFT
-    | NOT_EQUALS
-    | PLUS
-    | COMMA
-    | MINUS
-    | UNDERSCORE
-    | MULTIPLY
-    | MODULO
-    | ASSIGNMENT
-    | AND
-    | PIPE
-    | BANG
     | GT
     | LT
+    | NOT_EQUALS
+;
+
+arithmetic_operator:
+    PLUS
+    | MINUS
+    | DIVIDE
+    | HIGH_MULTIPLY
+    | MULTIPLY
+    | MODULO
+;
+
+logical_operator:
+    AND
+    | OR
+;
+
+punctuation:
+    COMMA
     | L_BRACKETS
     | R_BRACKETS
     | L_CURLY_BRACES
@@ -88,6 +100,13 @@ symbol:
     | R_PARENS
     | SEMICOLON
     | COLON
+;
+
+symbol:
+    operator
+    | punctuation
+    | UNDERSCORE
+    | BANG
 ;
 
 keyword:

@@ -135,13 +135,13 @@ INVALID_SYMBOL  [\?#@`]
 "false"             {col_num += yyleng; return FALSE;}
 {CHARACTER}         {col_num += yyleng; yylval.character = strdup(remove_quotations(handle_unicode_escape_sequences(yytext))); return CHARACTER;}
 {STRING}            {col_num += yyleng; yylval.string = strdup(remove_quotations(handle_unicode_escape_sequences(yytext))); return STRING;}
-{INTEGER}           {col_num += yyleng; yylval.integer = atoi(yytext); yylval.row_num = row_num; yylval.col_num = col_num; return INTEGER;}
+{INTEGER}           {col_num += yyleng; yylval.integer = atoi(yytext); return INTEGER;}
 {ID}                {col_num += yyleng; yylval.id = strdup(yytext); return ID;}
-"/"                 {col_num += yyleng; return FWD_SLASH;}
+"/"                 {col_num += yyleng; return DIVIDE;}
 "=="                {col_num += yyleng; return EQUALS;}
 ">="                {col_num += yyleng; return GTE;}
 "<="                {col_num += yyleng; return LTE;}
-"*>>"               {col_num += yyleng; return MULT_SHIFT;}
+"*>>"               {col_num += yyleng; return HIGH_MULTIPLY;}
 "!="                {col_num += yyleng; return NOT_EQUALS;}
 "+"                 {col_num += yyleng; return PLUS;}
 ","                 {col_num += yyleng; return COMMA;}
@@ -151,7 +151,7 @@ INVALID_SYMBOL  [\?#@`]
 "%"                 {col_num += yyleng; return MODULO;}
 "="                 {col_num += yyleng; return ASSIGNMENT;}
 "&"                 {col_num += yyleng; return AND;}
-"|"                 {col_num += yyleng; return PIPE;}
+"|"                 {col_num += yyleng; return OR;}
 "!"                 {col_num += yyleng; return BANG;}
 ">"                 {col_num += yyleng; return GT;}
 "<"                 {col_num += yyleng; return LT;}
