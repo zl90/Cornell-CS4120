@@ -39,12 +39,79 @@ prog:
 ;
 
 stmts:
-    | stmt NEWLINE stmts
+    stmt
+    | stmt stmts {printf("STATEMENTS!!");}
 ;
 
 stmt:
-    IF expression stmt {printf("SUCCESS!!!!");}
-    | expression {printf("Ended up at a statement...");}
+    assignment_stmt
+    | return_stmt
+    | function_call_stmt
+    | function_declaration_stmt
+    | import_directive
+    | if_stmt
+    | if_else_stmt
+    | while_loop_stmt
+    | block_stmt
+;
+
+assignment_stmt: /* Not finished */
+    ID ASSIGNMENT primary_expression
+;
+
+return_stmt: /* Not finished */
+    RETURN
+    | RETURN primary_expression
+;
+
+function_call_stmt: /* Not finished */
+    ID L_PARENS primary_expression R_PARENS
+    | ID L_PARENS R_PARENS
+;
+
+function_declaration_stmt: /* Not finished */
+    ID L_PARENS primary_expression R_PARENS block_stmt
+    | ID L_PARENS R_PARENS block_stmt
+;
+
+import_directive:
+    USE ID
+;
+
+if_stmt: /* Not finished */
+    IF expression block_stmt
+;
+
+if_else_stmt: /* Not finished */
+    IF expression block_stmt ELSE block_stmt
+;
+
+while_loop_stmt: /* Not finished */
+    WHILE expression block_stmt
+;
+
+block_stmt: /* Not finished */
+    stmts
+    | L_CURLY_BRACES stmts R_CURLY_BRACES
+    | L_CURLY_BRACES R_CURLY_BRACES
+;
+
+assignment_stmt:
+    set_assignment_stmt
+    | basic_assignment_stmt
+;
+
+set_assignment_stmt: /* Not finished */
+    ID ASSIGNMENT L_CURLY_BRACES primary_expression_list R_CURLY_BRACES
+;
+
+basic_assignment_stmt: /* Not finished */
+    ID ASSIGNMENT primary_expression
+;
+
+primary_expression_list: /* Not finished */
+primary_expression
+    | primary_expression COMMA primary_expression_list 
 ;
 
 expression: 
@@ -88,38 +155,6 @@ arithmetic_operator:
 logical_operator:
     AND
     | OR
-;
-
-punctuation:
-    COMMA
-    | L_BRACKETS
-    | R_BRACKETS
-    | L_CURLY_BRACES
-    | R_CURLY_BRACES
-    | L_PARENS
-    | R_PARENS
-    | SEMICOLON
-    | COLON
-;
-
-symbol:
-    operator
-    | punctuation
-    | UNDERSCORE
-    | BANG
-;
-
-keyword:
-    USE
-    | IF
-    | WHILE
-    | ELSE
-    | RETURN
-    | LENGTH
-    | INT
-    | BOOL
-    | TRUE
-    | FALSE
 ;
 
 %%
