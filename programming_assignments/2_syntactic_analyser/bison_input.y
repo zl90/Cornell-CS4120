@@ -49,6 +49,10 @@ newlines:
     | NEWLINE newlines
 ;
 
+newlines_optional:
+    | newlines
+;
+
 semicolon_optional:
     | SEMICOLON
 ;
@@ -59,9 +63,10 @@ stmt:
     | function_call_stmt
     | function_declaration_stmt
     | import_directive
-    /*| if_stmt
+    | if_stmt
     | if_else_stmt
-    | while_loop_stmt
+    | block_stmt
+    /*| while_loop_stmt
     | block_stmt */
 ;
 
@@ -102,7 +107,7 @@ if_stmt: /* Not finished */
 ;
 
 if_else_stmt: /* Not finished */
-    IF expression block_stmt ELSE block_stmt
+    if_stmt ELSE block_stmt
 ;
 
 while_loop_stmt: /* Not finished */
@@ -110,8 +115,8 @@ while_loop_stmt: /* Not finished */
 ;
 
 block_stmt: /* Not finished */
-    L_CURLY_BRACES newlines stmts R_CURLY_BRACES
-    | L_CURLY_BRACES newlines R_CURLY_BRACES
+    L_CURLY_BRACES newlines_optional stmts R_CURLY_BRACES
+    | L_CURLY_BRACES newlines_optional R_CURLY_BRACES
 ;
 
 primary_expression_list: /* Not finished */
