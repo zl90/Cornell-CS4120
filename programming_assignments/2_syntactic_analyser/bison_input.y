@@ -32,6 +32,9 @@
     char *error;
 }
 
+%nonassoc SEMICOLON
+%nonassoc NEWLINE
+
 %%
 
 prog:
@@ -39,34 +42,19 @@ prog:
 ;
 
 stmts:
-    stmt semicolon_optional
-    | stmt semicolon_optional newlines
-    | stmt semicolon_optional newlines stmts {printf("STATEMENTS!!");}
-;
-
-newlines: 
-    NEWLINE 
-    | NEWLINE newlines
-;
-
-newlines_optional:
-    | newlines
-;
-
-semicolon_optional:
-    | SEMICOLON
+    | stmt stmts {printf("STATEMENTS!!");}
 ;
 
 stmt:
     assignment_stmt
     | return_stmt
-    | function_call_stmt
+    /*| function_call_stmt
     | function_declaration_stmt
     | import_directive
     | if_stmt
     | if_else_stmt
     | block_stmt
-    /*| while_loop_stmt
+    | while_loop_stmt
     | block_stmt */
 ;
 
@@ -115,8 +103,8 @@ while_loop_stmt: /* Not finished */
 ;
 
 block_stmt: /* Not finished */
-    L_CURLY_BRACES newlines_optional stmts R_CURLY_BRACES
-    | L_CURLY_BRACES newlines_optional R_CURLY_BRACES
+    L_CURLY_BRACES stmts R_CURLY_BRACES
+    | L_CURLY_BRACES R_CURLY_BRACES
 ;
 
 primary_expression_list: /* Not finished */
