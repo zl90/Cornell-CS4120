@@ -45,10 +45,12 @@ stmts:
 ;
 
 newlines: 
-    NEWLINE
-    | NEWLINE SEMICOLON
-    | NEWLINE newlines
-    | NEWLINE SEMICOLON newlines
+    semicolon_optional NEWLINE 
+    | semicolon_optional NEWLINE newlines
+;
+
+semicolon_optional:
+    | SEMICOLON
 ;
 
 stmt:
@@ -73,7 +75,7 @@ return_stmt: /* Not finished */
 ;
 
 function_call_stmt: /* Not finished */
-    ID L_PARENS primary_expression R_PARENS
+    ID L_PARENS primary_expression_list R_PARENS
     | ID L_PARENS R_PARENS
 ;
 
@@ -133,6 +135,7 @@ primary_expression:
     | STRING
     | INTEGER
     | CHARACTER
+    | function_call_stmt
 ;
 
 operator:
