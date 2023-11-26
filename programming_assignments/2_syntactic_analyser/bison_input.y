@@ -32,6 +32,7 @@
     char *error;
 }
 
+
 %%
 
 prog:
@@ -40,19 +41,26 @@ prog:
 
 stmts:
     stmt
-    | stmt stmts {printf("STATEMENTS!!");}
+    | stmt newlines stmts {printf("STATEMENTS!!");}
+;
+
+newlines: 
+    NEWLINE
+    | NEWLINE SEMICOLON
+    | NEWLINE newlines
+    | NEWLINE SEMICOLON newlines
 ;
 
 stmt:
     assignment_stmt
     | return_stmt
     | function_call_stmt
-    | function_declaration_stmt
+    /*| function_declaration_stmt
     | import_directive
     | if_stmt
     | if_else_stmt
     | while_loop_stmt
-    | block_stmt
+    | block_stmt */
 ;
 
 assignment_stmt: /* Not finished */
@@ -61,7 +69,7 @@ assignment_stmt: /* Not finished */
 
 return_stmt: /* Not finished */
     RETURN
-    | RETURN primary_expression
+    | RETURN primary_expression_list
 ;
 
 function_call_stmt: /* Not finished */
@@ -96,10 +104,10 @@ block_stmt: /* Not finished */
     | L_CURLY_BRACES R_CURLY_BRACES
 ;
 
-assignment_stmt:
+/* assignment_stmt:
     set_assignment_stmt
     | basic_assignment_stmt
-;
+; */
 
 set_assignment_stmt: /* Not finished */
     ID ASSIGNMENT L_CURLY_BRACES primary_expression_list R_CURLY_BRACES
@@ -110,7 +118,7 @@ basic_assignment_stmt: /* Not finished */
 ;
 
 primary_expression_list: /* Not finished */
-primary_expression
+    primary_expression
     | primary_expression COMMA primary_expression_list 
 ;
 
