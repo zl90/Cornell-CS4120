@@ -161,14 +161,14 @@ INVALID_SYMBOL  [\?#@`]
 "]"                 {col_num += yyleng; return R_BRACKETS;}
 "("                 {col_num += yyleng; return L_PARENS;}
 ")"                 {col_num += yyleng; return R_PARENS;}
-";"                 {col_num += yyleng; return SEMICOLON;}
+";"                 {col_num += yyleng;}
 ":"                 {col_num += yyleng; return COLON;}
 {EMPTY_CHAR}        {yylval.error = strdup("error:empty character literal"); return ERROR; yyterminate();}
 {INVALID_CHAR}      {yylval.error = strdup("error:Invalid character literal"); return ERROR; yyterminate();}
 {INVALID_STRING}    {yylval.error = strdup("error:Invalid string literal"); return ERROR; yyterminate();}
 {INVALID_SYMBOL}    {yylval.error = strdup("error:Invalid symbol"); return ERROR; yyterminate();}
 {COMMENT}           {/* Ignore coments */}
-{NEWLINE}           {++row_num; col_num = 1; return NEWLINE;}
+{NEWLINE}           {++row_num; col_num = 1;}
 .                   {++col_num;}
 %%
 
