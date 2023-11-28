@@ -90,6 +90,10 @@ function_call_stmt: /* Not finished */
     | ID L_PARENS R_PARENS
 ;
 
+set:
+    L_CURLY_BRACES primary_expression_list R_CURLY_BRACES
+;
+
 function_declaration_stmt: /* Not finished */
     ID L_PARENS primary_expression_list R_PARENS block_stmt
     | ID L_PARENS R_PARENS block_stmt
@@ -133,6 +137,7 @@ primary_expression:
     | INTEGER
     | CHARACTER
     | function_call_stmt
+    | set
 ;
 
 operator:
