@@ -31,9 +31,6 @@
     char *error;
 }
 
-%left RETURN
-%right ID
-
 %%
 
 prog:
@@ -47,18 +44,17 @@ stmts:
 
 stmt:
     assignment_stmt
-    | return_stmt
-    /*| function_call_stmt
+    | return_stmt {printf("RETURN STATEMENT PARSED!!!!!");}
+    | function_call_stmt
     | function_declaration_stmt
     | import_directive
     | if_stmt
     | if_else_stmt
     | block_stmt
     | while_loop_stmt
-    | block_stmt */
 ;
 
-assignment_stmt:
+assignment_stmt:    
     set_assignment_stmt
     | basic_assignment_stmt
 ;
@@ -72,8 +68,21 @@ basic_assignment_stmt: /* Not finished */
 ;
 
 return_stmt: /* Not finished */
+    empty_return_stmt
+    | singular_return_stmt
+    | list_return_stmt
+;
+
+empty_return_stmt:
     RETURN
-    | RETURN primary_expression_list
+;
+
+singular_return_stmt:
+    empty_return_stmt primary_expression
+;
+
+list_return_stmt:
+    singular_return_stmt COMMA primary_expression_list
 ;
 
 function_call_stmt: /* Not finished */
