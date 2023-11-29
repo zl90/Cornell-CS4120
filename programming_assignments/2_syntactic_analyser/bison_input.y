@@ -98,6 +98,8 @@ set:
 function_declaration_stmt: /* Not finished */
     ID L_PARENS declaration_element_list R_PARENS block_stmt
     | ID L_PARENS R_PARENS block_stmt
+    | ID L_PARENS declaration_element_list R_PARENS COLON type_list block_stmt
+    | ID L_PARENS R_PARENS COLON type_list block_stmt
 ;
 
 declaration_element:
@@ -118,6 +120,11 @@ array_reference:
 
 array_2d_reference:
     array_reference array_subscript
+;
+
+type_list:
+    type
+    | type COMMA type_list
 ;
 
 type:
