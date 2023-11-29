@@ -14,21 +14,21 @@ add_custom_command(
     COMMENT "Running flex on flex_input.l"
 )
 
-# Define a custom command to run bison
-add_custom_command(
-    OUTPUT bison_input.tab.c
-    COMMAND bison -d -t -Wcounterexamples ${CMAKE_CURRENT_SOURCE_DIR}/bison_input.y
-    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/bison_input.y
-    COMMENT "Running bison on bison_input.y"
-)
-
 # # Define a custom command to run bison
 # add_custom_command(
 #     OUTPUT bison_input.tab.c
-#     COMMAND bison -d -t ${CMAKE_CURRENT_SOURCE_DIR}/bison_input.y
+#     COMMAND bison -d -t -Wcounterexamples ${CMAKE_CURRENT_SOURCE_DIR}/bison_input.y
 #     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/bison_input.y
 #     COMMENT "Running bison on bison_input.y"
 # )
+
+# Define a custom command to run bison
+add_custom_command(
+    OUTPUT bison_input.tab.c
+    COMMAND bison -d -t ${CMAKE_CURRENT_SOURCE_DIR}/bison_input.y
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/bison_input.y
+    COMMENT "Running bison on bison_input.y"
+)
 
 # Define a custom command to run flex
 add_custom_command(

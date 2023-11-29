@@ -65,6 +65,7 @@ declaration_element_list:
 
 assignment_stmt_rhs: /* Not finished */
     | ASSIGNMENT primary_expression_list
+    | ASSIGNMENT expression_list
 ;
 
 return_stmt: /* Not finished */
@@ -153,7 +154,7 @@ import_directive:
 ;
 
 if_stmt: /* Not finished */
-    IF expression block_stmt
+    IF if_while_expression block_stmt
 ;
 
 if_else_stmt: /* Not finished */
@@ -161,7 +162,7 @@ if_else_stmt: /* Not finished */
 ;
 
 while_loop_stmt: /* Not finished */
-    WHILE expression block_stmt
+    WHILE if_while_expression block_stmt
 ;
 
 block_stmt: /* Not finished */
@@ -174,10 +175,20 @@ primary_expression_list: /* Not finished */
     | primary_expression COMMA primary_expression_list 
 ;
 
-expression: 
+if_while_expression: 
     ID operator primary_expression
     | primary_expression
-    | L_PARENS expression R_PARENS
+    | L_PARENS if_while_expression R_PARENS
+;
+
+expression_list:
+    expression
+    | expression COMMA expression_list
+;
+
+expression:
+    primary_expression operator primary_expression
+    | primary_expression operator expression
 ;
 
 primary_expression:
@@ -185,6 +196,8 @@ primary_expression:
     | STRING
     | INTEGER
     | CHARACTER
+    | TRUE
+    | FALSE
     | function_call_stmt
     | set
     | array_id
@@ -194,7 +207,6 @@ operator:
     comparison_operator
     | arithmetic_operator
     | logical_operator
-    | ASSIGNMENT
 ;
 
 comparison_operator:
