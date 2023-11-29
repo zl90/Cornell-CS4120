@@ -55,16 +55,16 @@ stmt:
 ;
 
 assignment_stmt:    
-    set_assignment_stmt
-    | basic_assignment_stmt
+    assignment_stmt_lhs assignment_stmt_rhs
 ;
 
-set_assignment_stmt: /* Not finished */
-    ID ASSIGNMENT L_CURLY_BRACES primary_expression_list R_CURLY_BRACES
+assignment_stmt_lhs:
+    declaration_stmt
+    | declaration_stmt COMMA assignment_stmt
 ;
 
-basic_assignment_stmt: /* Not finished */
-    ID ASSIGNMENT primary_expression
+assignment_stmt_rhs: /* Not finished */
+    | ASSIGNMENT primary_expression_list
 ;
 
 return_stmt: /* Not finished */
@@ -97,6 +97,41 @@ set:
 function_declaration_stmt: /* Not finished */
     ID L_PARENS primary_expression_list R_PARENS block_stmt
     | ID L_PARENS R_PARENS block_stmt
+;
+
+declaration_stmt:
+    UNDERSCORE
+    | ID
+    | ID COLON type
+;
+
+type:
+    simple_type
+    | array_type
+    | array_2d_type
+;
+
+simple_type:
+    BOOL
+    | INT
+;
+
+array_type:
+    simple_type array_subscript
+;
+
+array_2d_type:
+    array_type array_subscript
+;
+
+array_subscript:
+    L_BRACKETS array_subcript_element R_BRACKETS
+;
+
+array_subcript_element:
+    | ID
+    | INTEGER
+    | function_call_stmt
 ;
 
 import_directive:
