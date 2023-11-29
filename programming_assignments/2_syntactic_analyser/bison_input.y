@@ -55,12 +55,12 @@ stmt:
 ;
 
 assignment_stmt:    
-    assignment_stmt_lhs assignment_stmt_rhs
+    declaration_element_list assignment_stmt_rhs
 ;
 
-assignment_stmt_lhs:
-    declaration_stmt
-    | declaration_stmt COMMA assignment_stmt
+declaration_element_list:
+    declaration_element
+    | declaration_element COMMA declaration_element_list
 ;
 
 assignment_stmt_rhs: /* Not finished */
@@ -95,14 +95,28 @@ set:
 ;
 
 function_declaration_stmt: /* Not finished */
-    ID L_PARENS primary_expression_list R_PARENS block_stmt
+    ID L_PARENS declaration_element_list R_PARENS block_stmt
     | ID L_PARENS R_PARENS block_stmt
 ;
 
-declaration_stmt:
+declaration_element:
     UNDERSCORE
     | ID
+    | array_id
     | ID COLON type
+;
+
+array_id:
+    array_reference
+    | array_2d_reference
+;
+
+array_reference:
+    ID array_subscript
+;
+
+array_2d_reference:
+    array_reference array_subscript
 ;
 
 type:
@@ -173,6 +187,7 @@ primary_expression:
     | CHARACTER
     | function_call_stmt
     | set
+    | array_id
 ;
 
 operator:
