@@ -196,6 +196,7 @@ expression_list:
 expression:
     primary_expression operator primary_expression
     | primary_expression operator expression
+    | L_PARENS expression R_PARENS
 ;
 
 primary_expression:
@@ -208,6 +209,11 @@ primary_expression:
     | function_call_stmt
     | set
     | array_id
+    | negative_integer
+;
+
+negative_integer:
+    MINUS INTEGER
 ;
 
 operator:
