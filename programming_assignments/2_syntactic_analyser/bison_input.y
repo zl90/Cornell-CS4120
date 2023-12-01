@@ -210,10 +210,15 @@ primary_expression:
     | set
     | array_id
     | negative_integer
+    | negated_primary_expression
 ;
 
 negative_integer:
     MINUS INTEGER
+;
+
+negated_primary_expression:
+    BANG primary_expression
 ;
 
 operator:
