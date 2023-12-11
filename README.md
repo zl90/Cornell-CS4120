@@ -77,6 +77,14 @@ My study session: https://www.youtube.com/watch?v=weXjvcn4k30
 
 We go through the homework questions related to Syntactic Analysis.
 
+#### 14 - Update on Programming Assignment 2
+My study session: https://youtu.be/lU50jRscYaU?si=yAZY-1K_a2yYmLiw
+
+#### 15 - Semantic Analysis and Symbol Tables
+My study session: https://youtu.be/x-qLITmAgtI?si=74-fhtzatYN1qjyM
+
+In this lesson we get introduced to Semantic analysis and the concept of Semantic Contexts. We also learn how typical semantic contexts are implemented.
+
 ## Programming Assignments
 #### Assignment 1 - Lexical Analysis: Retrospective
 Me demoing the finished assignment: https://www.youtube.com/watch?v=WoRMcVGTsW0
