@@ -85,6 +85,11 @@ My study session: https://youtu.be/x-qLITmAgtI?si=74-fhtzatYN1qjyM
 
 In this lesson we get introduced to Semantic analysis and the concept of Semantic Contexts. We also learn how typical semantic contexts are implemented.
 
+#### 16 - Type systems
+My study session: https://www.youtube.com/watch?v=nG5D70X49hE
+
+This lesson is a basic introduction/review of common type systems used in programming.
+
 ## Programming Assignments
 #### Assignment 1 - Lexical Analysis: Retrospective
 Me demoing the finished assignment: https://www.youtube.com/watch?v=WoRMcVGTsW0
